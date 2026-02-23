@@ -41,9 +41,9 @@ public partial class StorageViewModel : ObservableObject, IDisposable
         {
             var color = d.UsedPercent switch
             {
-                >= 90 => "#FF4444",   // Red
-                >= 70 => "#FFAA33",   // Orange
-                _ => "#44DD88"        // Green
+                >= 90 => "#FF3B5C",   // Danger red
+                >= 70 => "#FF8C00",   // Warning orange
+                _ => "#GRADIENT"      // Cyan→Violet gradient (handled in code-behind)
             };
 
             Drives.Add(new DriveInfoViewModel
@@ -71,14 +71,14 @@ public partial class StorageViewModel : ObservableObject, IDisposable
 /// <summary>Display model for a single drive.</summary>
 public class DriveInfoViewModel
 {
-    public string DriveName { get; init; } = "";
-    public string DriveLabel { get; init; } = "";
-    public string DriveTypeLabel { get; init; } = "";
-    public string TotalGB { get; init; } = "";
-    public string UsedGB { get; init; } = "";
-    public string FreeGB { get; init; } = "";
-    public float UsedPercent { get; init; }
-    public string UsageText { get; init; } = "";
+    public string DriveName { get; set; } = "";
+    public string DriveLabel { get; set; } = "";
+    public string DriveTypeLabel { get; set; } = "";
+    public string TotalGB { get; set; } = "";
+    public string UsedGB { get; set; } = "";
+    public string FreeGB { get; set; } = "";
+    public float UsedPercent { get; set; }
+    public string UsageText { get; set; } = "";
     /// <summary>Hex color string: green/orange/red based on usage.</summary>
-    public string BarColor { get; init; } = "#44DD88";
+    public string BarColor { get; set; } = "#44DD88";
 }

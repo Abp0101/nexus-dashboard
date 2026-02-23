@@ -25,6 +25,7 @@ public sealed class HardwareService : IDisposable
     public float GpuTemperature { get; private set; }
     public float GpuVramUsed { get; private set; }
     public float GpuVramTotal { get; private set; }
+    public float GpuClock { get; private set; }
 
     // ── RAM ──────────────────────────────────────────
     public float RamUsed { get; private set; }
@@ -228,6 +229,8 @@ public sealed class HardwareService : IDisposable
             var vramTotalGB = FindSensorValue(hw, SensorType.Data, "GPU Memory Total");
             if (vramTotalGB.HasValue) GpuVramTotal = vramTotalGB.Value;
         }
+
+        GpuClock = FindSensorValue(hw, SensorType.Clock, "GPU Core") ?? GpuClock;
     }
 
     // ─── RAM ─────────────────────────────────────────────────────────

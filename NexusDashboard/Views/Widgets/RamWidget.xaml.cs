@@ -27,10 +27,35 @@ public sealed partial class RamWidget : UserControl
 
     private void UpdateBar()
     {
-        if (UsageBar.Parent is Grid container && container.ActualWidth > 0)
+        if (UsageBar.Parent is Border container && container.ActualWidth > 0)
         {
             var pct = ViewModel.RamUsagePercent / 100.0;
-            UsageBar.Width = container.ActualWidth * pct;
+            double targetWidth = container.ActualWidth * pct;
+            
+            var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+            var animation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation
+            {
+                To = targetWidth,
+                Duration = new Microsoft.UI.Xaml.Duration(System.TimeSpan.FromMilliseconds(300)),
+                EnableDependentAnimation = true,
+                EasingFunction = new Microsoft.UI.Xaml.Media.Animation.ExponentialEase { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut }
+            };
+            Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(animation, UsageBar);
+            Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(animation, "Width");
+            storyboard.Children.Add(animation);
+            storyboard.Begin();
         }
+    }
+
+    private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+    }
+
+    private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }

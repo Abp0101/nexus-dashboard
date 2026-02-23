@@ -6,10 +6,17 @@ namespace NEXUS;
 
 public sealed partial class MainWindow : Window
 {
+    private readonly DispatcherTimer _clockTimer;
+
     public MainWindow()
     {
         this.InitializeComponent();
         Title = "NEXUS Dashboard";
+
+        _clockTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _clockTimer.Tick += (s, e) => ClockText.Text = DateTime.Now.ToString("HH:mm:ss");
+        _clockTimer.Start();
+        ClockText.Text = DateTime.Now.ToString("HH:mm:ss");
 
         // ── Row 1: Hardware widgets ──
         var cpuVm = new CpuViewModel(App.HardwareService);

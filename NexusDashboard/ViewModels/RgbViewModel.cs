@@ -133,11 +133,11 @@ public partial class RgbViewModel : ObservableObject, IDisposable
 /// <summary>Display model for a single RGB device.</summary>
 public class RgbDeviceDisplay : ObservableObject
 {
-    public string Name { get; init; } = "";
-    public int DeviceIndex { get; init; }
-    public int LedCount { get; init; }
-    public string ZoneLabel { get; init; } = "";
-    public bool IsHardwiredGreen { get; init; }
+    public string Name { get; set; } = "";
+    public int DeviceIndex { get; set; }
+    public int LedCount { get; set; }
+    public string ZoneLabel { get; set; } = "";
+    public bool IsHardwiredGreen { get; set; }
     public bool IsControllable => !IsHardwiredGreen;
 
     private bool _isSelected = true;

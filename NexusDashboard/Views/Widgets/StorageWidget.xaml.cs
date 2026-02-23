@@ -1,7 +1,4 @@
-using Microsoft.UI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using NEXUS.ViewModels;
 
 namespace NEXUS.Views.Widgets;
@@ -15,54 +12,126 @@ public sealed partial class StorageWidget : UserControl
         ViewModel = viewModel;
         this.InitializeComponent();
 
-        // Rebuild progress bars when drives collection changes
-        ViewModel.Drives.CollectionChanged += (_, _) => BuildProgressBars();
-        this.SizeChanged += (_, _) => BuildProgressBars();
+        ViewModel.Drives.CollectionChanged += (_, _) => BuildDriveCards();
+        BuildDriveCards();
     }
 
-    /// <summary>
-    /// Walks the ItemsRepeater to inject colored progress bar Borders
-    /// into each drive's Grid (the 6px progress bar track).
-    /// </summary>
-    private void BuildProgressBars()
+    private void BuildDriveCards()
     {
-        // Small delay to allow the ItemsRepeater to realize items
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
-            for (int i = 0; i < ViewModel.Drives.Count; i++)
+            DriveListPanel.Children.Clear();
+
+            foreach (var drive in ViewModel.Drives)
             {
-                var element = DriveList.TryGetElement(i);
-                if (element is not StackPanel panel) continue;
+                var drivePanel = new StackPanel { Spacing = 6, Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 10) };
 
-                // The Grid is the last child (the progress bar track)
-                if (panel.Children.Count < 3) continue;
-                if (panel.Children[2] is not Grid barGrid) continue;
+                // Top label row (Name on left, used/total on right)
+                var labelGrid = new Grid();
+                labelGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
+                labelGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = Microsoft.UI.Xaml.GridLength.Auto });
 
-                var drive = ViewModel.Drives[i];
-                var pct = Math.Clamp(drive.UsedPercent / 100.0, 0, 1);
+                var leftStack = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+                leftStack.Children.Add(new TextBlock 
+                { 
+                    Text = drive.DriveName, 
+                    FontSize = 13, 
+                    FontWeight = Microsoft.UI.Text.FontWeights.Bold,
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(235, 255, 255, 255)) 
+                });
+                leftStack.Children.Add(new TextBlock 
+                { 
+                    Text = drive.DriveLabel, 
+                    FontSize = 12, 
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(64, 255, 255, 255)),
+                    VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
+                });
+                Grid.SetColumn(leftStack, 0);
 
-                // Parse the hex color
-                var brush = drive.BarColor switch
+                var rightStack = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6 };
+                rightStack.Children.Add(new TextBlock 
+                { 
+                    Text = drive.UsedGB, 
+                    FontSize = 12, 
+                    FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Consolas"),
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(235, 255, 255, 255)) 
+                });
+                rightStack.Children.Add(new TextBlock 
+                { 
+                    Text = $"of {drive.TotalGB} GB", 
+                    FontSize = 12, 
+                    FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Consolas"),
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(115, 255, 255, 255)) 
+                });
+                Grid.SetColumn(rightStack, 1);
+
+                labelGrid.Children.Add(leftStack);
+                labelGrid.Children.Add(rightStack);
+                drivePanel.Children.Add(labelGrid);
+
+                // Progress Bar Container
+                var track = new Border
                 {
-                    "#FF4444" => new SolidColorBrush(ColorHelper.FromArgb(255, 0xFF, 0x44, 0x44)),
-                    "#FFAA33" => new SolidColorBrush(ColorHelper.FromArgb(255, 0xFF, 0xAA, 0x33)),
-                    _ => new SolidColorBrush(ColorHelper.FromArgb(255, 0x44, 0xDD, 0x88)),
+                    Height = 4,
+                    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(99),
+                    Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(15, 255, 255, 255))
+                }; // 6% white track
+
+                // Determine bar color based on percentage
+                Microsoft.UI.Xaml.Media.Brush fillBrush;
+                if (drive.UsedPercent >= 90)
+                    fillBrush = (App.Current.Resources["AccentDanger"] as Microsoft.UI.Xaml.Media.SolidColorBrush)!;
+                else if (drive.UsedPercent >= 70)
+                    fillBrush = (App.Current.Resources["AccentOrange"] as Microsoft.UI.Xaml.Media.SolidColorBrush)!;
+                else
+                    fillBrush = (App.Current.Resources["CyanVioletGradient"] as Microsoft.UI.Xaml.Media.LinearGradientBrush)!;
+
+                var fill = new Border
+                {
+                    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(99),
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Left,
+                    Background = fillBrush,
+                    Width = 0 // start at 0
                 };
 
-                // Remove existing colored bars (keep only the background border)
-                while (barGrid.Children.Count > 1)
-                    barGrid.Children.RemoveAt(barGrid.Children.Count - 1);
-
-                var bar = new Border
+                track.Child = fill;
+                
+                double pct = drive.UsedPercent / 100.0;
+                track.SizeChanged += (s, e) =>
                 {
-                    Background = brush,
-                    CornerRadius = new CornerRadius(3),
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    Width = barGrid.ActualWidth > 0 ? barGrid.ActualWidth * pct : 0
+                    if (e.NewSize.Width > 0 && fill.Width == 0) // animate only initially
+                    {
+                        var targetWidth = e.NewSize.Width * pct;
+                        var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+                        var animation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation
+                        {
+                            To = targetWidth,
+                            Duration = new Microsoft.UI.Xaml.Duration(System.TimeSpan.FromMilliseconds(300)),
+                            EnableDependentAnimation = true,
+                            EasingFunction = new Microsoft.UI.Xaml.Media.Animation.ExponentialEase { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut }
+                        };
+                        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(animation, fill);
+                        Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(animation, "Width");
+                        storyboard.Children.Add(animation);
+                        storyboard.Begin();
+                    }
                 };
 
-                barGrid.Children.Add(bar);
+                drivePanel.Children.Add(track);
+                DriveListPanel.Children.Add(drivePanel);
             }
         });
+    }
+
+    private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+    }
+
+    private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }

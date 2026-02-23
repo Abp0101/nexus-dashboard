@@ -11,39 +11,45 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
-            <Color x:Key="Primary">#512BD4</Color>
 
-            <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
-            <SolidColorBrush x:Key="WhiteBrush" Color="White" />
-            <SolidColorBrush x:Key="BlackBrush" Color="Black" />
+            <!-- Base Colors -->
+            <Color x:Key="AccentCyanColor">#00D4FF</Color>
+            <Color x:Key="AccentVioletColor">#8B5CF6</Color>
+            <Color x:Key="AccentGreenColor">#10F59E</Color>
+            <Color x:Key="AccentOrangeColor">#FF6B35</Color>
+            <Color x:Key="AccentDangerColor">#FF4D6D</Color>
 
-            <x:Double x:Key="AppFontSize">14</x:Double>
+            <Color x:Key="GlassBorderColor">#19FFFFFF</Color>
+            <Color x:Key="GlassHoverColor">#11FFFFFF</Color>
+            
+            <Color x:Key="TextPrimaryColor">#EBFFFFFF</Color>
+            <Color x:Key="TextSecondaryColor">#73FFFFFF</Color>
+            <Color x:Key="TextMutedColor">#40FFFFFF</Color>
 
-            <Style x:Key="MyLabel" TargetType="TextBlock">
-                <Setter Property="Foreground"
-                        Value="{StaticResource PrimaryBrush}" />
-            </Style>
+            <!-- SolidColorBrushes -->
+            <SolidColorBrush x:Key="AccentCyan" Color="{StaticResource AccentCyanColor}" />
+            <SolidColorBrush x:Key="AccentViolet" Color="{StaticResource AccentVioletColor}" />
+            <SolidColorBrush x:Key="AccentGreen" Color="{StaticResource AccentGreenColor}" />
+            <SolidColorBrush x:Key="AccentOrange" Color="{StaticResource AccentOrangeColor}" />
+            <SolidColorBrush x:Key="AccentDanger" Color="{StaticResource AccentDangerColor}" />
 
-            <Style x:Key="Action" TargetType="Button">
-                <Setter Property="FontSize"
-                        Value="{StaticResource AppFontSize}" />
-                <Setter Property="Padding"
-                        Value="14,10" />
-            </Style>
+            <SolidColorBrush x:Key="TextPrimary" Color="{StaticResource TextPrimaryColor}" />
+            <SolidColorBrush x:Key="TextSecondary" Color="{StaticResource TextSecondaryColor}" />
+            <SolidColorBrush x:Key="TextMuted" Color="{StaticResource TextMutedColor}" />
+            
+            <SolidColorBrush x:Key="GlassBorder" Color="{StaticResource GlassBorderColor}" />
+            <!-- Actually using AcrylicBrush for the background per instructions -->
+            <AcrylicBrush x:Key="GlassBackground" TintColor="#050810" TintOpacity="0.96" FallbackColor="#0D1117" />
+            <!-- Progress bars track color -->
+            <SolidColorBrush x:Key="ProgressBarTrack" Color="#0FFFFFFF" />
 
-            <Style x:Key="PrimaryAction"
-                   TargetType="Button"
-                   BasedOn="{StaticResource Action}">
-                <Setter Property="Background"
-                        Value="{StaticResource PrimaryBrush}" />
-                <Setter Property="CornerRadius"
-                        Value="8" />
-                <Setter Property="Foreground"
-                        Value="{StaticResource WhiteBrush}" />
-            </Style>
+            <!-- Reusable Gradient Brushes -->
+            <LinearGradientBrush x:Key="CyanVioletGradient" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="{StaticResource AccentCyanColor}" Offset="0" />
+                <GradientStop Color="{StaticResource AccentVioletColor}" Offset="1" />
+            </LinearGradientBrush>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

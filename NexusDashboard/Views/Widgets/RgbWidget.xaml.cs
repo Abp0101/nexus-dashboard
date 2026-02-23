@@ -1,7 +1,4 @@
-using Microsoft.UI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using NEXUS.ViewModels;
 
 namespace NEXUS.Views.Widgets;
@@ -15,61 +12,66 @@ public sealed partial class RgbWidget : UserControl
         ViewModel = viewModel;
         this.InitializeComponent();
 
-        // Master toggle wiring
         MasterToggle.Toggled += (_, _) =>
         {
             if (ViewModel.IsEnabled != MasterToggle.IsOn)
                 ViewModel.ToggleMasterCommand.Execute(null);
         };
 
-        // Build Essential ON/OFF buttons when devices update
-        ViewModel.Devices.CollectionChanged += (_, _) => BuildEssentialButtons();
-        BuildEssentialButtons();
+        ViewModel.Devices.CollectionChanged += (_, _) => BuildDeviceList();
+        BuildDeviceList();
+        
+        RgbColorPicker.Color = ViewModel.SelectedColor;
     }
 
-    /// <summary>
-    /// Creates ON/OFF toggle buttons for each Razer Essential device.
-    /// </summary>
-    private void BuildEssentialButtons()
+    private void RgbColorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
     {
-        EssentialButtons.Children.Clear();
+        ViewModel.SelectedColor = args.NewColor;
+    }
+
+    private void BuildDeviceList()
+    {
+        DeviceListPanel.Children.Clear();
 
         foreach (var d in ViewModel.Devices)
         {
-            if (!d.IsHardwiredGreen) continue;
-
-            var btn = new Button
+            if (d.IsControllable)
             {
-                Content = $"💡 {d.Name} — {(d.IsOn ? "ON" : "OFF")}",
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                CornerRadius = new CornerRadius(8),
-                Background = new SolidColorBrush(d.IsOn
-                    ? ColorHelper.FromArgb(255, 0x22, 0x66, 0x33)   // Dark green
-                    : ColorHelper.FromArgb(255, 0x1A, 0x1A, 0x25)), // Dark grey
-                Foreground = new SolidColorBrush(d.IsOn
-                    ? ColorHelper.FromArgb(255, 0x44, 0xDD, 0x88)
-                    : ColorHelper.FromArgb(255, 0x66, 0x77, 0x99)),
-                Tag = d
-            };
-
-            btn.Click += (sender, _) =>
-            {
-                if (sender is Button b && b.Tag is RgbDeviceDisplay device)
+                var cb = new CheckBox
                 {
-                    ViewModel.ToggleEssentialCommand.Execute(device);
-
-                    // Update button appearance
-                    b.Content = $"💡 {device.Name} — {(device.IsOn ? "ON" : "OFF")}";
-                    b.Background = new SolidColorBrush(device.IsOn
-                        ? ColorHelper.FromArgb(255, 0x22, 0x66, 0x33)
-                        : ColorHelper.FromArgb(255, 0x1A, 0x1A, 0x25));
-                    b.Foreground = new SolidColorBrush(device.IsOn
-                        ? ColorHelper.FromArgb(255, 0x44, 0xDD, 0x88)
-                        : ColorHelper.FromArgb(255, 0x66, 0x77, 0x99));
-                }
-            };
-
-            EssentialButtons.Children.Add(btn);
+                    Content = $"{d.Name}  ({d.ZoneLabel})",
+                    IsChecked = d.IsSelected,
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White),
+                    Tag = d
+                };
+                cb.Checked += (s, _) => { if (s is CheckBox c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = true; };
+                cb.Unchecked += (s, _) => { if (s is CheckBox c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = false; };
+                DeviceListPanel.Children.Add(cb);
+            }
+            else
+            {
+                var tb = new TextBlock
+                {
+                    Text = $"  {d.Name}  ({d.ZoneLabel})",
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+                        Microsoft.UI.ColorHelper.FromArgb(255, 0x88, 0x92, 0xA4)),
+                    FontSize = 13,
+                    Margin = new Microsoft.UI.Xaml.Thickness(0, 4, 0, 4)
+                };
+                DeviceListPanel.Children.Add(tb);
+            }
         }
+    }
+
+    private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+    }
+
+    private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+    {
+        if (sender is Border b)
+            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }
