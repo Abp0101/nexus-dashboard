@@ -9,14 +9,13 @@ public partial class App : Application
 {
     private Window? _window;
 
-    /// <summary>Shared HardwareService singleton — accessible app-wide.</summary>
+    // ── Singleton services ──
     public static HardwareService HardwareService { get; } = new();
-
-    /// <summary>Shared WeatherService singleton — accessible app-wide.</summary>
     public static WeatherService WeatherService { get; } = new();
-
-    /// <summary>Shared BluetoothService singleton — accessible app-wide.</summary>
     public static BluetoothService BluetoothService { get; } = new();
+    public static RgbService RgbService { get; } = new();
+    public static NetworkService NetworkService { get; } = new();
+    public static StorageService StorageService { get; } = new();
 
     public App()
     {

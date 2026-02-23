@@ -20,10 +20,20 @@ public sealed partial class MainWindow : Window
         GpuWidgetHost.Child = new GpuWidget(gpuVm);
         RamWidgetHost.Child = new RamWidget(ramVm);
 
-        // ── Row 2: Weather + Bluetooth ──
+        // ── Row 2: Weather + Bluetooth + RGB ──
         var weatherVm = new WeatherViewModel(App.WeatherService);
         WeatherWidgetHost.Child = new WeatherWidget(weatherVm);
 
         BluetoothWidgetHost.Child = new BluetoothWidget(App.BluetoothService);
+
+        var rgbVm = new RgbViewModel(App.RgbService);
+        RgbWidgetHost.Child = new RgbWidget(rgbVm);
+
+        // ── Row 3: Network + Storage ──
+        var netVm = new NetworkViewModel(App.NetworkService);
+        NetworkWidgetHost.Child = new NetworkWidget(netVm);
+
+        var storageVm = new StorageViewModel(App.StorageService);
+        StorageWidgetHost.Child = new StorageWidget(storageVm);
     }
 }
