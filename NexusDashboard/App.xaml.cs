@@ -1,3 +1,5 @@
+using NEXUS.Services;
+
 namespace NEXUS;
 
 /// <summary>
@@ -8,11 +10,17 @@ public partial class App : Application
     private Window? _window;
 
     /// <summary>
+    /// Shared HardwareService singleton — accessible app-wide.
+    /// </summary>
+    public static HardwareService HardwareService { get; } = new();
+
+    /// <summary>
     /// Initializes the singleton application object.
     /// </summary>
     public App()
     {
         this.InitializeComponent();
+        this.UnhandledException += OnUnhandledException;
     }
 
     /// <summary>
@@ -22,5 +30,11 @@ public partial class App : Application
     {
         _window = new MainWindow();
         _window.Activate();
+    }
+
+    private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        // Prevent crash; log as needed
+        e.Handled = true;
     }
 }

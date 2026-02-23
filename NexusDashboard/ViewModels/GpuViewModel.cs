@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
 using NEXUS.Services;
 
 namespace NEXUS.ViewModels;
@@ -10,6 +11,7 @@ namespace NEXUS.ViewModels;
 public partial class GpuViewModel : ObservableObject, IDisposable
 {
     private readonly HardwareService _hw;
+    private readonly DispatcherQueue _dispatcher;
 
     [ObservableProperty]
     private string _gpuLoad = "0 %";
@@ -26,15 +28,19 @@ public partial class GpuViewModel : ObservableObject, IDisposable
     public GpuViewModel(HardwareService hardwareService)
     {
         _hw = hardwareService;
+        _dispatcher = DispatcherQueue.GetForCurrentThread();
         _hw.SensorsUpdated += OnSensorsUpdated;
     }
 
     private void OnSensorsUpdated(object? sender, EventArgs e)
     {
-        GpuLoad = $"{_hw.GpuLoad:F1} %";
-        GpuTemp = $"{_hw.GpuTemperature:F0} °C";
-        GpuVramUsed = $"{_hw.GpuVramUsed:F1} GB";
-        GpuVramTotal = $"{_hw.GpuVramTotal:F1} GB";
+        _dispatcher.TryEnqueue(() =>
+        {
+            GpuLoad = $"{_hw.GpuLoad:F1} %";
+            GpuTemp = $"{_hw.GpuTemperature:F0} °C";
+            GpuVramUsed = $"{_hw.GpuVramUsed:F1} GB";
+            GpuVramTotal = $"{_hw.GpuVramTotal:F1} GB";
+        });
     }
 
     public void Dispose()

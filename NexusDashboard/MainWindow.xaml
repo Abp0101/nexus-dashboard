@@ -9,15 +9,34 @@
     mc:Ignorable="d"
     Title="NEXUS Dashboard">
 
-    <Grid Background="#050810">
-        <!-- Dashboard content will be placed here -->
+    <Grid Background="#050810" Padding="32">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Title Bar -->
         <TextBlock
+            Grid.Row="0"
             Text="N E X U S"
-            FontSize="48"
+            FontSize="36"
             FontWeight="Bold"
             Foreground="#AABBFF"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Opacity="0.8" />
+            HorizontalAlignment="Left"
+            Margin="0,0,0,24"
+            Opacity="0.9" />
+
+        <!-- Widgets Grid -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Widgets are added programmatically in code-behind -->
+            <Border x:Name="CpuWidgetHost" Grid.Column="0" VerticalAlignment="Top" />
+            <Border x:Name="GpuWidgetHost" Grid.Column="2" VerticalAlignment="Top" />
+        </Grid>
     </Grid>
 </Window>
