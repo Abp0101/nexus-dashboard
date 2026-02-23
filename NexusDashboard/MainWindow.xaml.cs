@@ -14,13 +14,16 @@ public sealed partial class MainWindow : Window
         // Create ViewModels backed by the shared HardwareService singleton
         var cpuVm = new CpuViewModel(App.HardwareService);
         var gpuVm = new GpuViewModel(App.HardwareService);
+        var ramVm = new RamViewModel(App.HardwareService);
 
         // Create widgets and inject their ViewModels
         var cpuWidget = new CpuWidget(cpuVm);
         var gpuWidget = new GpuWidget(gpuVm);
+        var ramWidget = new RamWidget(ramVm);
 
         // Attach widgets to the host containers in XAML
         CpuWidgetHost.Child = cpuWidget;
         GpuWidgetHost.Child = gpuWidget;
+        RamWidgetHost.Child = ramWidget;
     }
 }

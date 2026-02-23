@@ -7,7 +7,58 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock Text="RAM Widget Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-    </Grid>
+    <Border
+        Background="#0A0F1A"
+        CornerRadius="16"
+        Padding="24"
+        BorderBrush="#1A2540"
+        BorderThickness="1">
+        <StackPanel Spacing="12">
+            <!-- Header -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock
+                    Text="🧠 RAM"
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    Foreground="#AABBFF" />
+                <TextBlock
+                    Text="{x:Bind ViewModel.RamUsagePercentText, Mode=OneWay}"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Foreground="#66DDAA"
+                    VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Usage Bar -->
+            <Grid Height="8" CornerRadius="4">
+                <Border Background="#151C2E" CornerRadius="4" />
+                <Border
+                    x:Name="UsageBar"
+                    Background="#4488FF"
+                    CornerRadius="4"
+                    HorizontalAlignment="Left" />
+            </Grid>
+
+            <!-- Used -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Used"      Foreground="#667799" FontSize="14" Width="100" />
+                <TextBlock Text="{x:Bind ViewModel.RamUsed, Mode=OneWay}"
+                           Foreground="White" FontSize="14" FontWeight="SemiBold" />
+            </StackPanel>
+
+            <!-- Available -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Available"  Foreground="#667799" FontSize="14" Width="100" />
+                <TextBlock Text="{x:Bind ViewModel.RamAvailable, Mode=OneWay}"
+                           Foreground="White" FontSize="14" FontWeight="SemiBold" />
+            </StackPanel>
+
+            <!-- Total -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="Total"      Foreground="#667799" FontSize="14" Width="100" />
+                <TextBlock Text="{x:Bind ViewModel.RamTotal, Mode=OneWay}"
+                           Foreground="White" FontSize="14" FontWeight="SemiBold" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
 </UserControl>

@@ -28,11 +28,12 @@
                            Foreground="White" FontSize="14" FontWeight="SemiBold" />
             </StackPanel>
 
-            <!-- Temperature -->
+            <!-- Temperature — unavailable on AMD Ryzen without WinRing0 -->
             <StackPanel Orientation="Horizontal" Spacing="8">
                 <TextBlock Text="Temp"     Foreground="#667799" FontSize="14" Width="100" />
-                <TextBlock Text="{x:Bind ViewModel.CpuTemp, Mode=OneWay}"
-                           Foreground="White" FontSize="14" FontWeight="SemiBold" />
+                <TextBlock Text="Unavailable on AMD"
+                           Foreground="#445566" FontSize="12" FontStyle="Italic"
+                           VerticalAlignment="Center" />
             </StackPanel>
 
             <!-- Clock Speed -->

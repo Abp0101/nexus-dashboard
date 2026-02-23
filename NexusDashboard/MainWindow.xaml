@@ -26,9 +26,11 @@
             Margin="0,0,0,24"
             Opacity="0.9" />
 
-        <!-- Widgets Grid -->
+        <!-- Widgets Grid: 3 columns -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="16" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="16" />
                 <ColumnDefinition Width="*" />
@@ -37,6 +39,7 @@
             <!-- Widgets are added programmatically in code-behind -->
             <Border x:Name="CpuWidgetHost" Grid.Column="0" VerticalAlignment="Top" />
             <Border x:Name="GpuWidgetHost" Grid.Column="2" VerticalAlignment="Top" />
+            <Border x:Name="RamWidgetHost" Grid.Column="4" VerticalAlignment="Top" />
         </Grid>
     </Grid>
 </Window>
