@@ -11,19 +11,19 @@ public sealed partial class MainWindow : Window
         this.InitializeComponent();
         Title = "NEXUS Dashboard";
 
-        // Create ViewModels backed by the shared HardwareService singleton
+        // ── Row 1: Hardware widgets ──
         var cpuVm = new CpuViewModel(App.HardwareService);
         var gpuVm = new GpuViewModel(App.HardwareService);
         var ramVm = new RamViewModel(App.HardwareService);
 
-        // Create widgets and inject their ViewModels
-        var cpuWidget = new CpuWidget(cpuVm);
-        var gpuWidget = new GpuWidget(gpuVm);
-        var ramWidget = new RamWidget(ramVm);
+        CpuWidgetHost.Child = new CpuWidget(cpuVm);
+        GpuWidgetHost.Child = new GpuWidget(gpuVm);
+        RamWidgetHost.Child = new RamWidget(ramVm);
 
-        // Attach widgets to the host containers in XAML
-        CpuWidgetHost.Child = cpuWidget;
-        GpuWidgetHost.Child = gpuWidget;
-        RamWidgetHost.Child = ramWidget;
+        // ── Row 2: Weather + Bluetooth ──
+        var weatherVm = new WeatherViewModel(App.WeatherService);
+        WeatherWidgetHost.Child = new WeatherWidget(weatherVm);
+
+        BluetoothWidgetHost.Child = new BluetoothWidget(App.BluetoothService);
     }
 }

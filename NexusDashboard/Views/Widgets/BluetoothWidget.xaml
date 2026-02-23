@@ -7,7 +7,67 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock Text="Bluetooth Widget Placeholder" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
-    </Grid>
+    <Border
+        Background="#0A0F1A"
+        CornerRadius="16"
+        Padding="24"
+        BorderBrush="#1A2540"
+        BorderThickness="1">
+        <StackPanel Spacing="12">
+            <!-- Header -->
+            <TextBlock
+                Text="📡 Bluetooth"
+                FontSize="18"
+                FontWeight="SemiBold"
+                Foreground="#AABBFF" />
+
+            <!-- Device Count -->
+            <TextBlock
+                x:Name="DeviceCountText"
+                Text="Scanning..."
+                Foreground="#667799"
+                FontSize="12" />
+
+            <!-- Device List -->
+            <ItemsRepeater x:Name="DeviceList">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="8" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="local:BluetoothDeviceDisplay">
+                        <Border Background="#0F1525" CornerRadius="8" Padding="12,8">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Connection indicator -->
+                                <Ellipse Grid.Column="0"
+                                         Width="8" Height="8"
+                                         Fill="{x:Bind StatusColor}"
+                                         VerticalAlignment="Center"
+                                         Margin="0,0,10,0" />
+
+                                <!-- Device name -->
+                                <TextBlock Grid.Column="1"
+                                           Text="{x:Bind Name}"
+                                           Foreground="White"
+                                           FontSize="13"
+                                           VerticalAlignment="Center" />
+
+                                <!-- Battery or status -->
+                                <TextBlock Grid.Column="2"
+                                           Text="{x:Bind StatusText}"
+                                           Foreground="#667799"
+                                           FontSize="12"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </StackPanel>
+    </Border>
 </UserControl>

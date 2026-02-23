@@ -9,23 +9,21 @@ public partial class App : Application
 {
     private Window? _window;
 
-    /// <summary>
-    /// Shared HardwareService singleton — accessible app-wide.
-    /// </summary>
+    /// <summary>Shared HardwareService singleton — accessible app-wide.</summary>
     public static HardwareService HardwareService { get; } = new();
 
-    /// <summary>
-    /// Initializes the singleton application object.
-    /// </summary>
+    /// <summary>Shared WeatherService singleton — accessible app-wide.</summary>
+    public static WeatherService WeatherService { get; } = new();
+
+    /// <summary>Shared BluetoothService singleton — accessible app-wide.</summary>
+    public static BluetoothService BluetoothService { get; } = new();
+
     public App()
     {
         this.InitializeComponent();
         this.UnhandledException += OnUnhandledException;
     }
 
-    /// <summary>
-    /// Invoked when the application is launched.
-    /// </summary>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
         _window = new MainWindow();
@@ -34,7 +32,6 @@ public partial class App : Application
 
     private void OnUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // Prevent crash; log as needed
         e.Handled = true;
     }
 }
