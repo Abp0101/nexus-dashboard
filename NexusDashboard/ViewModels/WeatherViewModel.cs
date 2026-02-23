@@ -17,7 +17,10 @@ public partial class WeatherViewModel : ObservableObject, IDisposable
     private string _temperature = "Loading...";
 
     [ObservableProperty]
-    private string _description = "⏳ Loading...";
+    private string _emoji = "⏳";
+
+    [ObservableProperty]
+    private string _description = "Loading...";
 
     [ObservableProperty]
     private string _windSpeed = "—";
@@ -36,8 +39,9 @@ public partial class WeatherViewModel : ObservableObject, IDisposable
     {
         _dispatcher.TryEnqueue(() =>
         {
-            Temperature = $"{_weather.Temperature:F1} °C";
-            Description = $"{_weather.Emoji} {_weather.Description}";
+            Temperature = $"{_weather.Temperature:F1}"; // Removed °C here, as it's separate in UI or implied by the large number
+            Emoji = _weather.Emoji;
+            Description = _weather.Description.ToUpper();
             WindSpeed = $"{_weather.WindSpeed:F0} km/h";
             Humidity = $"{_weather.Humidity} %";
         });

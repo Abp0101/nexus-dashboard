@@ -13,20 +13,60 @@
          TileBrush isn't fully supported to draw grid lines natively without a backing image in standard WinUI, 
          so we use a subtle ImageBrush or skipped if unavailable. We'll use a standard layout. -->
     <Grid Background="#050810">
-        <!-- Background Orbs -->
-        <Grid>
-            <!-- Top Left Violet -->
-            <Ellipse Width="600" Height="600" Fill="#8B5CF6" Opacity="0.12" 
-                     HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-100,-200,0,0" />
-                     
-            <!-- Center Right Cyan -->
-            <Ellipse Width="500" Height="500" Fill="#00D4FF" Opacity="0.08" 
-                     HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,200,-150,0" />
-                     
-            <!-- Bottom center Green -->
-            <Ellipse Width="400" Height="400" Fill="#10F59E" Opacity="0.06" 
-                     HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="400,0,0,-100" />
-        </Grid>
+        <!-- Background Orbs Canvas (Z-Index 0) -->
+        <Canvas x:Name="BackgroundCanvas">
+            
+            <!-- Orb 1: Violet (top-left) -->
+            <Ellipse x:Name="Orb1" Width="700" Height="700" Margin="-250,0,0,0"  Opacity="0.35">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#8B5CF6" Offset="0" />
+                        <GradientStop Color="#008B5CF6" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 2: Cyan (top-right) -->
+            <Ellipse x:Name="Orb2" Width="600" Height="600" Margin="-100,0,0,0"  Opacity="0.28">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#00D4FF" Offset="0" />
+                        <GradientStop Color="#0000D4FF" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 3: Green (bottom-left) -->
+            <Ellipse x:Name="Orb3" Width="500" Height="500" VerticalAlignment="Bottom" Margin="-150,0,0,0"  Opacity="0.18">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#10F59E" Offset="0" />
+                        <GradientStop Color="#0010F59E" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 4: Cyan (center-right) -->
+            <Ellipse x:Name="Orb4" Width="350" Height="350" Margin="300,0,0,0"  Opacity="0.15">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#00D4FF" Offset="0" />
+                        <GradientStop Color="#0000D4FF" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 5: Violet (bottom-left corner) -->
+            <Ellipse x:Name="Orb5" Width="300" Height="300" VerticalAlignment="Bottom" Margin="-50,0,0,0"  Opacity="0.20">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#8B5CF6" Offset="0" />
+                        <GradientStop Color="#008B5CF6" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+        </Canvas>
 
         <!-- Subtle Grid Overlay Simulation (Optional, tough in pure XAML without an image) -->
 
@@ -54,20 +94,25 @@
                                     <GradientStop Color="#8B5CF6" Offset="1" />
                                 </LinearGradientBrush>
                             </Border.Background>
+                            <!-- Inner Hexagon or N -->
+                            <TextBlock Text="N" Foreground="White" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
                         </Border>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="N E X U S" FontSize="20" FontWeight="Bold" FontFamily="Segoe UI" Foreground="{StaticResource TextPrimary}" />
-                            <TextBlock Text="SYSTEM MONITOR" FontSize="11" Foreground="{StaticResource TextMuted}" CharacterSpacing="200" />
+                            <TextBlock Text="NEXUS" FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Variable Display" Foreground="White" CharacterSpacing="150" />
+                            <TextBlock Text="SYSTEM MONITOR" FontSize="11" Foreground="{StaticResource TextMuted}" CharacterSpacing="200" Margin="0,2,0,0" />
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Right side -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                            <Ellipse Width="8" Height="8" Fill="{StaticResource AccentGreen}" />
-                            <TextBlock Text="ALL SYSTEMS NOMINAL" FontSize="11" Foreground="{StaticResource AccentGreen}" CharacterSpacing="100" Margin="0,0,16,0" />
+                        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                            <!-- Pulsing Dot -->
+                            <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="#10F59E">
+                                <!-- Triggers in code-behind -->
+                            </Ellipse>
+                            <TextBlock Text="ALL SYSTEMS NOMINAL" FontSize="12" Foreground="#73FFFFFF" CharacterSpacing="50" Margin="0,0,16,0" />
                         </StackPanel>
-                        <TextBlock x:Name="ClockText" Text="10:45:00" FontSize="14" FontFamily="Consolas" Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center" />
+                        <TextBlock x:Name="ClockText" Text="10:45:00" FontSize="14" FontFamily="Consolas" Foreground="#73FFFFFF" VerticalAlignment="Center" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -109,3 +154,4 @@
         </Grid>
     </Grid>
 </Window>
+

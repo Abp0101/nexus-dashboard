@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited">
         
@@ -18,9 +18,12 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentCyan}" VerticalAlignment="Center" />
+                <!-- Glowing cyan dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#00D4FF" />
+                </Grid>
                 <TextBlock Text="CPU" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                           Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
 
             <!-- CPU GAUGE & STATS -->
@@ -35,42 +38,43 @@
                     <!-- Dark Track arc -->
                     <Path Stroke="#0FFFFFFF" StrokeThickness="6" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                           Data="M 21.0,84.0 A 45,45 0 1 1 89.0,84.0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <!-- Colored Flow arc (simulate with exact shape or clip, here using gradient for now) -->
-                    <!-- Note: In WinUI XAML binding stroke dash array to % is hard without a custom control, 
-                         so we'll simulate the arc with a bound Path or a simple Sweep in code if needed. 
-                         Let's use a simpler full arc for the prototype aesthetic, or calculate DashArray in code-behind later. -->
+                    
+                    <!-- Colored Flow arc -->
                     <Path x:Name="UsageArc" StrokeThickness="6" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
                           Data="M 21.0,84.0 A 45,45 0 1 1 89.0,84.0" HorizontalAlignment="Center" VerticalAlignment="Center"
                           StrokeDashArray="141.3 282.7">
                         <Path.Stroke>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource AccentCyanColor}" Offset="0" />
-                                <GradientStop Color="{StaticResource AccentVioletColor}" Offset="1" />
+                                <GradientStop Color="#00D4FF" Offset="0" />
+                                <GradientStop Color="#8B5CF6" Offset="1" />
                             </LinearGradientBrush>
                         </Path.Stroke>
                     </Path>
 
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <TextBlock Text="{x:Bind ViewModel.CpuLoad, Mode=OneWay}" FontSize="22" FontWeight="SemiLight" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center" />
-                        <TextBlock Text="LOAD" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,-4,0,0" />
+                        <TextBlock Text="{x:Bind ViewModel.CpuLoad, Mode=OneWay}" FontSize="22" FontWeight="Light" Foreground="White" HorizontalAlignment="Center" />
+                        <TextBlock Text="LOAD" FontSize="9" Foreground="#40FFFFFF" HorizontalAlignment="Center" Margin="0,-4,0,0" />
                     </StackPanel>
                 </Grid>
 
                 <!-- Big Numbers -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="12">
+                    <!-- Top row: Load % -->
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <TextBlock Text="{x:Bind ViewModel.CpuLoad, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" 
-                                   Foreground="{StaticResource TextPrimary}" LineHeight="52" CharacterSpacing="-20" Margin="0,0,4,-8" />
+                        <TextBlock Text="{x:Bind ViewModel.CpuLoad, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                                   Foreground="White" LineHeight="52" CharacterSpacing="-20" Margin="0,0,4,-8" />
+                        <TextBlock Text="%" FontSize="18" Foreground="#73FFFFFF" VerticalAlignment="Bottom" Margin="0,0,0,2" />
                     </StackPanel>
                     
+                    <!-- Bottom row: Stats -->
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="TEMP" FontSize="10" Foreground="{StaticResource TextMuted}" Width="40" />
-                            <TextBlock Text="{x:Bind ViewModel.CpuTemp, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="{StaticResource TextSecondary}" />
+                            <TextBlock Text="TEMP" FontSize="11" FontFamily="Consolas" Foreground="#40FFFFFF" Width="40" />
+                            <TextBlock Text="{x:Bind ViewModel.CpuTemp, Mode=OneWay}" FontSize="11" FontFamily="Consolas" Foreground="#73FFFFFF" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="CLOCK" FontSize="10" Foreground="{StaticResource TextMuted}" Width="40" />
-                            <TextBlock Text="{x:Bind ViewModel.CpuClock, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="{StaticResource TextSecondary}" />
+                            <TextBlock Text="CLOCK" FontSize="11" FontFamily="Consolas" Foreground="#00D4FF" Width="40" />
+                            <TextBlock Text="{x:Bind ViewModel.CpuClock, Mode=OneWay}" FontSize="11" FontFamily="Consolas" Foreground="#00D4FF" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

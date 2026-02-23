@@ -29,26 +29,23 @@ public sealed partial class NetworkWidget : UserControl
         {
             PingDot.Fill = ms switch
             {
-                < 50 => new SolidColorBrush(ColorHelper.FromArgb(255, 0x44, 0xDD, 0x88)),   // Green
-                < 100 => new SolidColorBrush(ColorHelper.FromArgb(255, 0xFF, 0x8C, 0x00)),   // Orange
-                _ => new SolidColorBrush(ColorHelper.FromArgb(255, 0xFF, 0x3B, 0x5C)),       // Red
+                < 50 => new SolidColorBrush(ColorHelper.FromArgb(255, 16, 245, 158)),   // 10F59E (AccentGreen)
+                < 100 => new SolidColorBrush(ColorHelper.FromArgb(255, 255, 107, 53)),   // FF6B35 (AccentOrange)
+                _ => new SolidColorBrush(ColorHelper.FromArgb(255, 220, 38, 38)),       // DC2626 (AccentDanger)
             };
         }
         else
         {
-            PingDot.Fill = new SolidColorBrush(ColorHelper.FromArgb(255, 0xFF, 0x3B, 0x5C)); // Red for timeout
+            PingDot.Fill = new SolidColorBrush(ColorHelper.FromArgb(255, 220, 38, 38)); // Danger for timeout
         }
     }
 
     private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+        GlassHelper.AttachHoverEvents((Border)sender);
     }
 
     private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited">
         <Grid>
@@ -17,9 +17,12 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentViolet}" VerticalAlignment="Center" />
+                <!-- Glowing violet dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#8B5CF6" />
+                </Grid>
                 <TextBlock Text="GPU" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                           Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
 
             <Grid Grid.Row="1">
@@ -37,26 +40,29 @@
                           StrokeDashArray="141.3 282.7">
                         <Path.Stroke>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="{StaticResource AccentVioletColor}" Offset="0" />
-                                <GradientStop Color="{StaticResource AccentCyanColor}" Offset="1" />
+                                <GradientStop Color="#8B5CF6" Offset="0" />
+                                <GradientStop Color="#00D4FF" Offset="1" />
                             </LinearGradientBrush>
                         </Path.Stroke>
                     </Path>
 
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,8,0,0">
-                        <TextBlock Text="{x:Bind ViewModel.GpuLoad, Mode=OneWay}" FontSize="22" FontWeight="SemiLight" Foreground="{StaticResource TextPrimary}" HorizontalAlignment="Center" />
-                        <TextBlock Text="LOAD" FontSize="9" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Center" Margin="0,-4,0,0" />
+                        <TextBlock Text="{x:Bind ViewModel.GpuLoad, Mode=OneWay}" FontSize="22" FontWeight="Light" Foreground="White" HorizontalAlignment="Center" />
+                        <TextBlock Text="LOAD" FontSize="9" Foreground="#40FFFFFF" HorizontalAlignment="Center" Margin="0,-4,0,0" />
                     </StackPanel>
                 </Grid>
 
                 <!-- Big Numbers & Stats -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="12">
                      <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="16">
-                        <TextBlock Text="{x:Bind ViewModel.GpuLoad, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" 
-                                   Foreground="{StaticResource TextPrimary}" LineHeight="52" CharacterSpacing="-20" Margin="0,0,0,-8" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                            <TextBlock Text="{x:Bind ViewModel.GpuLoad, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                                       Foreground="White" LineHeight="52" CharacterSpacing="-20" Margin="0,0,4,-8" />
+                            <TextBlock Text="%" FontSize="18" Foreground="#73FFFFFF" VerticalAlignment="Bottom" Margin="0,0,0,2" />
+                        </StackPanel>
                         
                         <!-- Temperature Pill -->
-                        <Border CornerRadius="99" Padding="10,4" BorderThickness="1" 
+                        <Border CornerRadius="99" Padding="10,4" BorderThickness="1.5" 
                                 Background="{x:Bind ViewModel.GpuTempBg, Mode=OneWay}"
                                 BorderBrush="{x:Bind ViewModel.GpuTempBorder, Mode=OneWay}"
                                 VerticalAlignment="Bottom" Margin="0,0,0,8">
@@ -67,25 +73,24 @@
                     
                     <StackPanel Spacing="6">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="VRAM" FontSize="10" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
-                            <TextBlock Text="{x:Bind ViewModel.GpuVram, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock Text="VRAM" FontSize="11" FontFamily="Consolas" Foreground="#40FFFFFF" VerticalAlignment="Center" />
+                            <TextBlock Text="{x:Bind ViewModel.GpuVram, Mode=OneWay}" FontSize="11" FontFamily="Consolas" Foreground="#73FFFFFF" VerticalAlignment="Center"/>
                         </StackPanel>
                         <!-- Thin VRAM Bar -->
                         <Border Height="4" CornerRadius="99" Background="{StaticResource ProgressBarTrack}" Margin="0,0,0,4">
-                           <!-- Fill is handled in code-behind via percentage or static if not strictly animated at 300ms -->
                             <Border x:Name="VramBar" CornerRadius="99" HorizontalAlignment="Left" Width="60">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Color="{StaticResource AccentVioletColor}" Offset="0" />
-                                        <GradientStop Color="#FF6B35" Offset="1" />
+                                        <GradientStop Color="#8B5CF6" Offset="0" />
+                                        <GradientStop Color="#00D4FF" Offset="1" />
                                     </LinearGradientBrush>
                                 </Border.Background>
                             </Border>
                         </Border>
 
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="CLOCK" FontSize="10" Foreground="{StaticResource TextMuted}" Width="40" VerticalAlignment="Center"/>
-                            <TextBlock Text="{x:Bind ViewModel.GpuClock, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                            <TextBlock Text="CLOCK" FontSize="11" FontFamily="Consolas" Foreground="#00D4FF" Width="40" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind ViewModel.GpuClock, Mode=OneWay}" FontSize="11" FontFamily="Consolas" Foreground="#00D4FF" VerticalAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -18,27 +18,33 @@
             </Grid.RowDefinitions>
 
             <!-- CARD HEADER -->
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <!-- Using a grey dot for Bluetooth when inactive, blue/cyan when active could be done in code, 
-                     but we'll use cyan as the base accent. -->
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentCyan}" VerticalAlignment="Center" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="BLUETOOTH DEvICES" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                               Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
-                    <!-- The count text is generated in code-behind so we'll just name a TextBlock here -->
-                    <TextBlock x:Name="DeviceCountText" Grid.Column="1" FontSize="10" Foreground="{StaticResource TextMuted}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                </Grid>
-            </StackPanel>
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                    <!-- Cyan dot -->
+                    <Grid Width="6" Height="6" VerticalAlignment="Center">
+                        <Ellipse Fill="#00D4FF" />
+                    </Grid>
+                    <TextBlock Text="BLUETOOTH DEVICES" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                               Foreground="#40FFFFFF" VerticalAlignment="Center" />
+                </StackPanel>
 
-            <!-- Device List Container -->
-            <!-- We build the device cards programmatically in code-behind to avoid ItemsRepeater x:DataType issues -->
-            <ScrollViewer Grid.Row="1" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-                <StackPanel x:Name="DeviceListPanel" Spacing="10" />
-            </ScrollViewer>
+                <!-- Count Text -->
+                <TextBlock x:Name="DeviceCountText" Grid.Column="1" FontSize="10" Foreground="#40FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- Device List Container (Horizontal Wrap Cards) -->
+            <ItemsControl x:Name="DeviceListPanel" Grid.Row="1">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </Grid>
     </Border>
 </UserControl>

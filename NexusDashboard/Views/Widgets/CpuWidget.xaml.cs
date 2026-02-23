@@ -15,13 +15,13 @@ public sealed partial class CpuWidget : UserControl
 
     private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255)); // rgba(255,255,255,0.16)
+        // Now handled via global styles or GlassHelper if preferred.
+        // Left intact to keep XAML wiring valid, but we redirect implementation to GlassHelper:
+        GlassHelper.AttachHoverEvents((Border)sender);
     }
 
     private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
+        // Handled via GlassHelper.
     }
 }

@@ -31,47 +31,70 @@ public sealed partial class RgbWidget : UserControl
 
     private void BuildDeviceList()
     {
-        DeviceListPanel.Children.Clear();
+        DeviceListPanel.Items.Clear();
 
         foreach (var d in ViewModel.Devices)
         {
             if (d.IsControllable)
             {
-                var cb = new CheckBox
+                // Create a stylized ToggleButton-like card
+                var tb = new Microsoft.UI.Xaml.Controls.Primitives.ToggleButton
                 {
-                    Content = $"{d.Name}  ({d.ZoneLabel})",
+                    Content = new StackPanel
+                    {
+                        Spacing = 2,
+                        Children = 
+                        {
+                            new TextBlock { Text = d.Name, FontSize = 10, Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White) },
+                            new TextBlock { Text = d.ZoneLabel, FontSize = 9, Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(115, 255, 255, 255)) }
+                        }
+                    },
                     IsChecked = d.IsSelected,
-                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White),
-                    Tag = d
+                    Tag = d,
+                    Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 8, 8),
+                    Padding = new Microsoft.UI.Xaml.Thickness(12, 8, 12, 8),
+                    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(8),
+                    Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(10, 255, 255, 255)),
+                    BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(25, 255, 255, 255)),
+                    BorderThickness = new Microsoft.UI.Xaml.Thickness(1)
                 };
-                cb.Checked += (s, _) => { if (s is CheckBox c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = true; };
-                cb.Unchecked += (s, _) => { if (s is CheckBox c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = false; };
-                DeviceListPanel.Children.Add(cb);
+                
+                tb.Checked += (s, _) => { if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = true; };
+                tb.Unchecked += (s, _) => { if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = false; };
+                
+                DeviceListPanel.Items.Add(tb);
             }
             else
             {
-                var tb = new TextBlock
+                var border = new Border
                 {
-                    Text = $"  {d.Name}  ({d.ZoneLabel})",
-                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(
-                        Microsoft.UI.ColorHelper.FromArgb(255, 0x88, 0x92, 0xA4)),
-                    FontSize = 13,
-                    Margin = new Microsoft.UI.Xaml.Thickness(0, 4, 0, 4)
+                    Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 8, 8),
+                    Padding = new Microsoft.UI.Xaml.Thickness(12, 8, 12, 8),
+                    CornerRadius = new Microsoft.UI.Xaml.CornerRadius(8),
+                    Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(5, 255, 255, 255)),
+                    BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(10, 255, 255, 255)),
+                    BorderThickness = new Microsoft.UI.Xaml.Thickness(1),
+                    Child = new StackPanel
+                    {
+                        Spacing = 2,
+                        Children = 
+                        {
+                            new TextBlock { Text = d.Name, FontSize = 10, Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(64, 255, 255, 255)) },
+                            new TextBlock { Text = "Sync Only", FontSize = 9, Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(40, 255, 255, 255)) }
+                        }
+                    }
                 };
-                DeviceListPanel.Children.Add(tb);
+                DeviceListPanel.Items.Add(border);
             }
         }
     }
 
     private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+        GlassHelper.AttachHoverEvents((Border)sender);
     }
 
     private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }

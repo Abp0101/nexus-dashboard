@@ -20,8 +20,8 @@
             <Color x:Key="AccentOrangeColor">#FF6B35</Color>
             <Color x:Key="AccentDangerColor">#FF4D6D</Color>
 
-            <Color x:Key="GlassBorderColor">#19FFFFFF</Color>
-            <Color x:Key="GlassHoverColor">#11FFFFFF</Color>
+            <Color x:Key="GlassBorderColor">#1EFFFFFF</Color> <!-- 0.12 opacity -->
+            <Color x:Key="GlassHoverColor">#40FFFFFF</Color>  <!-- 0.25 opacity -->
             
             <Color x:Key="TextPrimaryColor">#EBFFFFFF</Color>
             <Color x:Key="TextSecondaryColor">#73FFFFFF</Color>
@@ -39,8 +39,20 @@
             <SolidColorBrush x:Key="TextMuted" Color="{StaticResource TextMutedColor}" />
             
             <SolidColorBrush x:Key="GlassBorder" Color="{StaticResource GlassBorderColor}" />
-            <!-- Actually using AcrylicBrush for the background per instructions -->
-            <AcrylicBrush x:Key="GlassBackground" TintColor="#050810" TintOpacity="0.96" FallbackColor="#0D1117" />
+            
+            <!-- True Frosted Glass AcrylicBrush -->
+            <AcrylicBrush x:Key="GlassBackground" 
+                          TintColor="#0A0F1A" 
+                          TintOpacity="0.45" 
+                           
+                          FallbackColor="#0D1525" />
+                          
+            <AcrylicBrush x:Key="GlassBackgroundHover" 
+                          TintColor="#0A0F1A" 
+                          TintOpacity="0.55" 
+                           
+                          FallbackColor="#0D1525" />
+
             <!-- Progress bars track color -->
             <SolidColorBrush x:Key="ProgressBarTrack" Color="#0FFFFFFF" />
 
@@ -53,3 +65,4 @@
         </ResourceDictionary>
     </Application.Resources>
 </Application>
+

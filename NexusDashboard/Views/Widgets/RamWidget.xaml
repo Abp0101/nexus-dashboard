@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited">
         <Grid>
@@ -17,31 +17,35 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentCyan}" VerticalAlignment="Center" />
+                <!-- Glowing cyan dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#00D4FF" />
+                </Grid>
                 <TextBlock Text="RAM" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                           Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
 
             <StackPanel Grid.Row="1" VerticalAlignment="Center" Spacing="16">
                 <!-- Big Numbers -->
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="8">
-                        <TextBlock Text="{x:Bind ViewModel.RamUsed, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" 
-                                   Foreground="{StaticResource TextPrimary}" LineHeight="52" CharacterSpacing="-20" />
+                        <TextBlock Text="{x:Bind ViewModel.RamUsed, Mode=OneWay}" FontSize="52" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                                   Foreground="White" LineHeight="52" CharacterSpacing="-20" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,-4,0,0">
-                        <TextBlock Text="of" FontSize="14" Foreground="{StaticResource TextSecondary}" />
-                        <TextBlock Text="{x:Bind ViewModel.RamTotal, Mode=OneWay}" FontSize="14" Foreground="{StaticResource TextSecondary}" />
+                        <TextBlock Text="of" FontSize="14" Foreground="#73FFFFFF" />
+                        <TextBlock Text="{x:Bind ViewModel.RamTotal, Mode=OneWay}" FontSize="14" Foreground="#73FFFFFF" />
+                        <TextBlock Text="GB" FontSize="14" Foreground="#73FFFFFF" />
                     </StackPanel>
                 </StackPanel>
 
-                <!-- Full Width Gradient Bar -->
-                <Border Height="8" CornerRadius="99" Background="{StaticResource ProgressBarTrack}">
+                <!-- Full Width 4px Gradient Bar -->
+                <Border Height="4" CornerRadius="99" Background="{StaticResource ProgressBarTrack}">
                     <Border x:Name="UsageBar" CornerRadius="99" HorizontalAlignment="Left" Width="120">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="{StaticResource AccentCyanColor}" Offset="0" />
-                                <GradientStop Color="{StaticResource AccentVioletColor}" Offset="1" />
+                                <GradientStop Color="#00D4FF" Offset="0" />
+                                <GradientStop Color="#8B5CF6" Offset="1" />
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
@@ -56,12 +60,12 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="AVAILABLE" FontSize="10" Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Bind ViewModel.RamAvailable, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="{StaticResource TextSecondary}" VerticalAlignment="Center"/>
+                        <TextBlock Text="AVAILABLE" FontSize="11" FontFamily="Consolas" Foreground="#40FFFFFF" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Bind ViewModel.RamAvailable, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="#73FFFFFF" VerticalAlignment="Center"/>
                     </StackPanel>
 
                     <TextBlock Grid.Column="2" Text="{x:Bind ViewModel.RamUsagePercentText, Mode=OneWay}" 
-                               FontSize="14" FontFamily="Consolas" FontWeight="SemiBold" Foreground="{StaticResource AccentCyan}" />
+                               FontSize="12" FontFamily="Consolas" Foreground="#73FFFFFF" />
                 </Grid>
             </StackPanel>
         </Grid>

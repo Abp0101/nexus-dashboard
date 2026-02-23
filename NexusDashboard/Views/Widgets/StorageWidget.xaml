@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -19,15 +19,17 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <!-- Using AccentOrange for Storage as a logical fit, or just Cyan -->
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentCyan}" VerticalAlignment="Center" />
-                <TextBlock Text="LOCAL VOLUMES" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                           Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                <!-- Cyan dot header for storage -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#00D4FF" />
+                </Grid>
+                <TextBlock Text="STORAGE VOLUMES" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
 
             <!-- Drive List Container -->
             <ScrollViewer Grid.Row="1" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-                <StackPanel x:Name="DriveListPanel" Spacing="10" />
+                <StackPanel x:Name="DriveListPanel" Spacing="16" />
             </ScrollViewer>
         </Grid>
     </Border>

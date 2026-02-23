@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border CornerRadius="20" Padding="22" BorderThickness="1" BorderBrush="{StaticResource GlassBorder}"
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
             Background="{StaticResource GlassBackground}"
             PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -20,28 +20,24 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <Ellipse Width="6" Height="6" Fill="{StaticResource AccentOrange}" VerticalAlignment="Center" />
-                <TextBlock Text="LOCAL CONDITIONS" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
-                           Foreground="{StaticResource TextMuted}" VerticalAlignment="Center" />
+                <!-- Glowing orange dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#FF6B35" />
+                </Grid>
+                <TextBlock Text="WEATHER" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
 
             <!-- Main Content Area (Spans height) -->
-            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Margin="0,24,0,32">
-                <!-- We split Emoji off from Description in code-behind if needed, 
-                     but since it's combined in ViewModel currently, we'll just extract the text and rely on it.
-                     Or we can just show the unified ViewModel.Description if it includes the emoji, but the spec wants
-                     emoji in 48px and description in 14px. I will assume the ViewModel currently has them unified, 
-                     but we'll adjust the style to be massive and let it flow. 
-                     Wait, WeatherService has .Emoji property but ViewModel sets them together. 
-                     Let's bind to Description for now and style it large, or expect a VM update later. 
-                     For the exact spec, I'll bind Temperature massive. -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Margin="0,16,0,16">
+                <TextBlock Text="CHARTHAM, CANTERBURY" FontSize="11" Foreground="#40FFFFFF" CharacterSpacing="100" HorizontalAlignment="Center" Margin="0,0,0,4" />
                 
-                <TextBlock Text="CHARTHAM, CANTERBURY" FontSize="11" Foreground="{StaticResource TextMuted}" CharacterSpacing="100" HorizontalAlignment="Center" Margin="0,0,0,16" />
+                <TextBlock Text="{x:Bind ViewModel.Emoji, Mode=OneWay}" FontSize="48" HorizontalAlignment="Center" />
                 
-                <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" FontSize="48" HorizontalAlignment="Center" Margin="0,-16,0,0" />
-                
-                <TextBlock Text="{x:Bind ViewModel.Temperature, Mode=OneWay}" FontSize="72" FontWeight="ExtraLight" 
-                           Foreground="{StaticResource TextPrimary}" LineHeight="72" CharacterSpacing="-20" HorizontalAlignment="Center" Margin="0,-8,0,0" />
+                <TextBlock Text="{x:Bind ViewModel.Temperature, Mode=OneWay}" FontSize="72" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                           Foreground="White" LineHeight="72" CharacterSpacing="-20" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                           
+                <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" FontSize="14" Foreground="#73FFFFFF" HorizontalAlignment="Center" />
             </StackPanel>
 
             <!-- 2-Column Mini Stat Cards -->
@@ -52,18 +48,18 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- WIND -->
-                <Border Grid.Column="0" Background="#0AFFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1" CornerRadius="12" Padding="12">
+                <Border Grid.Column="0" Background="#0AFFFFFF" BorderBrush="#11FFFFFF" BorderThickness="1" CornerRadius="12" Padding="10">
                     <StackPanel>
-                        <TextBlock Text="WIND" FontSize="10" Foreground="{StaticResource TextMuted}" Margin="0,0,0,4" />
-                        <TextBlock Text="{x:Bind ViewModel.WindSpeed, Mode=OneWay}" FontSize="14" Foreground="{StaticResource TextPrimary}" />
+                        <TextBlock Text="WIND" FontSize="9" CharacterSpacing="150" Foreground="#40FFFFFF" Margin="0,0,0,4" />
+                        <TextBlock Text="{x:Bind ViewModel.WindSpeed, Mode=OneWay}" FontSize="18" FontWeight="Light" Foreground="White" />
                     </StackPanel>
                 </Border>
 
                 <!-- HUMIDITY -->
-                <Border Grid.Column="1" Background="#0AFFFFFF" BorderBrush="{StaticResource GlassBorder}" BorderThickness="1" CornerRadius="12" Padding="12">
+                <Border Grid.Column="1" Background="#0AFFFFFF" BorderBrush="#11FFFFFF" BorderThickness="1" CornerRadius="12" Padding="10">
                     <StackPanel>
-                        <TextBlock Text="HUMIDITY" FontSize="10" Foreground="{StaticResource TextMuted}" Margin="0,0,0,4" />
-                        <TextBlock Text="{x:Bind ViewModel.Humidity, Mode=OneWay}" FontSize="14" Foreground="{StaticResource TextPrimary}" />
+                        <TextBlock Text="HUMIDITY" FontSize="9" CharacterSpacing="150" Foreground="#40FFFFFF" Margin="0,0,0,4" />
+                        <TextBlock Text="{x:Bind ViewModel.Humidity, Mode=OneWay}" FontSize="18" FontWeight="Light" Foreground="White" />
                     </StackPanel>
                 </Border>
             </Grid>

@@ -24,7 +24,7 @@ public sealed partial class StorageWidget : UserControl
 
             foreach (var drive in ViewModel.Drives)
             {
-                var drivePanel = new StackPanel { Spacing = 6, Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 10) };
+                var drivePanel = new StackPanel { Spacing = 8, Margin = new Microsoft.UI.Xaml.Thickness(0, 0, 0, 0) };
 
                 // Top label row (Name on left, used/total on right)
                 var labelGrid = new Grid();
@@ -35,14 +35,14 @@ public sealed partial class StorageWidget : UserControl
                 leftStack.Children.Add(new TextBlock 
                 { 
                     Text = drive.DriveName, 
-                    FontSize = 13, 
-                    FontWeight = Microsoft.UI.Text.FontWeights.Bold,
-                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(235, 255, 255, 255)) 
+                    FontSize = 12, 
+                    FontWeight = Microsoft.UI.Text.FontWeights.SemiBold,
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White) 
                 });
                 leftStack.Children.Add(new TextBlock 
                 { 
                     Text = drive.DriveLabel, 
-                    FontSize = 12, 
+                    FontSize = 11, 
                     Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(64, 255, 255, 255)),
                     VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
                 });
@@ -51,15 +51,15 @@ public sealed partial class StorageWidget : UserControl
                 var rightStack = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6 };
                 rightStack.Children.Add(new TextBlock 
                 { 
-                    Text = drive.UsedGB, 
-                    FontSize = 12, 
+                    Text = drive.UsedGB.Replace(" GB", ""), // Strip GB to mimic spec
+                    FontSize = 11, 
                     FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Consolas"),
-                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(235, 255, 255, 255)) 
+                    Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White)
                 });
                 rightStack.Children.Add(new TextBlock 
                 { 
-                    Text = $"of {drive.TotalGB} GB", 
-                    FontSize = 12, 
+                    Text = $"of {drive.TotalGB}", 
+                    FontSize = 11, 
                     FontFamily = new Microsoft.UI.Xaml.Media.FontFamily("Consolas"),
                     Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(115, 255, 255, 255)) 
                 });
@@ -75,23 +75,32 @@ public sealed partial class StorageWidget : UserControl
                     Height = 4,
                     CornerRadius = new Microsoft.UI.Xaml.CornerRadius(99),
                     Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(15, 255, 255, 255))
-                }; // 6% white track
+                }; 
 
                 // Determine bar color based on percentage
                 Microsoft.UI.Xaml.Media.Brush fillBrush;
                 if (drive.UsedPercent >= 90)
-                    fillBrush = (App.Current.Resources["AccentDanger"] as Microsoft.UI.Xaml.Media.SolidColorBrush)!;
+                    fillBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 220, 38, 38)); // Red-600 #DC2626
                 else if (drive.UsedPercent >= 70)
-                    fillBrush = (App.Current.Resources["AccentOrange"] as Microsoft.UI.Xaml.Media.SolidColorBrush)!;
+                    fillBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 255, 107, 53)); // AccentOrange
                 else
-                    fillBrush = (App.Current.Resources["CyanVioletGradient"] as Microsoft.UI.Xaml.Media.LinearGradientBrush)!;
+                {
+                    var gradient = new Microsoft.UI.Xaml.Media.LinearGradientBrush
+                    {
+                        StartPoint = new Windows.Foundation.Point(0, 0),
+                        EndPoint = new Windows.Foundation.Point(1, 0)
+                    };
+                    gradient.GradientStops.Add(new Microsoft.UI.Xaml.Media.GradientStop { Color = Microsoft.UI.ColorHelper.FromArgb(255, 0, 212, 255), Offset = 0 });
+                    gradient.GradientStops.Add(new Microsoft.UI.Xaml.Media.GradientStop { Color = Microsoft.UI.ColorHelper.FromArgb(255, 139, 92, 246), Offset = 1 });
+                    fillBrush = gradient;
+                }
 
                 var fill = new Border
                 {
                     CornerRadius = new Microsoft.UI.Xaml.CornerRadius(99),
                     HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Left,
                     Background = fillBrush,
-                    Width = 0 // start at 0
+                    Width = 0 // start at 0 for animation
                 };
 
                 track.Child = fill;
@@ -125,13 +134,10 @@ public sealed partial class StorageWidget : UserControl
 
     private void Border_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(41, 255, 255, 255));
+        GlassHelper.AttachHoverEvents((Border)sender);
     }
 
     private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        if (sender is Border b)
-            b.BorderBrush = App.Current.Resources["GlassBorder"] as Microsoft.UI.Xaml.Media.Brush;
     }
 }
