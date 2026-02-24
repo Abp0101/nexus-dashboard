@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NEXUS Dashboard Design Mockup</title>
+    <style>
+        :root {
+            --bg: #050810;
+            --accent-cyan: #00D4FF;
+            --accent-violet: #8B5CF6;
+            --accent-green: #10F59E;
+            --text-primary: rgba(255, 255, 255, 0.92);
+            --text-muted: rgba(255, 255, 255, 0.25);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.10);
+            --font-family: "Segoe UI Variable", "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 8px;
+            color: var(--accent-cyan);
+            margin-bottom: 24px;
+        }
+
+        .glass-panel {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+        }
+
+        .glass-card {
+            background-color: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Task 1 Icons */
+        .icon-row {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: url(#cyan-violet-grad);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Task 2 Sidebar Mockup */
+        .sidebar-container {
+            display: flex;
+            gap: 40px;
+            height: 700px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar-collapsed {
+            width: 48px;
+            padding: 24px 0;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--text-muted);
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            cursor: pointer;
+        }
+
+        .nav-icon.active {
+            stroke: url(#cyan-violet-grad);
+            filter: drop-shadow(0 0 8px var(--accent-cyan));
+        }
+
+        .sidebar-expanded {
+            width: 300px;
+            padding: 24px;
+            gap: 24px;
+            overflow-y: auto;
+        }
+
+        .nexus-logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        .toggle {
+            width: 36px;
+            height: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            position: relative;
+        }
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            background: var(--text-muted);
+            border-radius: 50%;
+        }
+        .toggle.on {
+            border-color: var(--accent-cyan);
+        }
+        .toggle.on::after {
+            background: var(--accent-cyan);
+            left: unset;
+            right: 2px;
+            box-shadow: 0 0 8px var(--accent-cyan);
+        }
+
+        .slider {
+            width: 100px;
+            height: 4px;
+            background: var(--glass-border);
+            border-radius: 2px;
+            position: relative;
+        }
+        .slider::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 16px 0;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .theme-card {
+            font-size: 11px;
+        }
+        .theme-card.active {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+        }
+
+        .swatch-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+        .swatch-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .widget-thumb {
+            height: 40px;
+            background: var(--glass-bg);
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .widget-size {
+            display: flex;
+            gap: 4px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .size-btn {
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+        .size-btn.active {
+            color: var(--text-primary);
+            border-color: var(--accent-violet);
+        }
+
+        /* Task 3 Theme Swatches Page */
+        .full-theme-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .full-theme-card {
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .large-swatch {
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 11px;
+            font-family: monospace;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            color: white;
+            justify-content: space-between;
+        }
+
+    </style>
+</head>
+<body>
+
+    <svg style="width:0; height:0; position:absolute;">
+        <defs>
+            <linearGradient id="cyan-violet-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00D4FF" />
+                <stop offset="100%" stop-color="#8B5CF6" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <h2>TASK 1 &mdash; WIDGET ICONS</h2>
+    <div class="glass-panel icon-row">
+        <!-- cpu-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <path d="M4 8h-2 M4 12h-2 M4 16h-2 M20 8h2 M20 12h2 M20 16h2 M8 4v-2 M12 4v-2 M16 4v-2 M8 20v2 M12 20v2 M16 20v2" />
+            <rect x="9" y="9" width="6" height="6" rx="1" />
+        </svg>
+
+        <!-- gpu-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <rect x="2" y="6" width="20" height="12" rx="2" />
+            <path d="M6 18v3 M10 18v3 M14 18v3 M18 18v3 M16 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+        </svg>
+
+        <!-- ram-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <rect x="2" y="8" width="20" height="8" rx="2" />
+            <path d="M4 16v2 M8 16v2 M12 16v2 M16 16v2 M20 16v2" />
+            <rect x="5" y="10" width="3" height="4" />
+            <rect x="10" y="10" width="4" height="4" />
+            <rect x="16" y="10" width="3" height="4" />
+        </svg>
+
+        <!-- weather-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <path d="M17.5 19H9a5 5 0 1 1 2.37-9.42 4.5 4.5 0 0 1 8.58 1.42A3.5 3.5 0 0 1 17.5 19z" />
+            <path d="M3 10l-1-1 M21 10l1-1 M12 2v2 M12 20v2 M6 4l1 1 M18 4l-1 1" />
+        </svg>
+
+        <!-- bluetooth-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <path d="M6.5 17.5l11-11L12 2v20l5.5-4.5-11-11" />
+        </svg>
+
+        <!-- network-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01" />
+        </svg>
+
+        <!-- storage-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <ellipse cx="12" cy="6" rx="8" ry="3" />
+            <path d="M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6" />
+            <path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" />
+        </svg>
+
+        <!-- rgb-icon -->
+        <svg class="icon-svg" viewBox="0 0 24 24">
+            <path d="M9 18h6 M10 22h4 M12 2v2 M20 6.5l-2 1.5 M4 6.5l2 1.5" />
+            <path d="M14.5 9A2.5 2.5 0 0 0 12 7a2.5 2.5 0 0 0-2.5 2c0 1.5 2.5 3.5 2.5 5h0s2.5-3.5 2.5-5z" />
+        </svg>
+    </div>
+
+    <h2>TASK 2 &mdash; SIDEBAR MOCKUP</h2>
+    <div class="sidebar-container">
+        
+        <!-- State A: Collapsed -->
+        <div class="glass-panel sidebar sidebar-collapsed">
+            <svg class="nav-icon active" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.21-.64-1.67-.09-.09-.13-.21-.13-.33 0-.28.22-.5.5-.5H16c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        </div>
+
+        <!-- State B: Expanded -->
+        <div class="glass-panel sidebar sidebar-expanded">
+            <div class="nexus-logo">NEXUS</div>
+            
+            <div class="section-title">SETTINGS</div>
+            <div class="setting-row">
+                Launch on startup <div class="toggle on"></div>
+            </div>
+            <div class="setting-row">
+                Temperature unit 
+                <div style="font-weight:bold; color:var(--text-primary);">°C <span style="color:var(--text-muted); font-weight:normal">/ °F</span></div>
+            </div>
+            <div class="setting-row">
+                Polling interval <div class="slider"></div>
+            </div>
+            <div class="setting-row">
+                Window opacity <div class="slider"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-title">THEMES</div>
+            <div class="theme-grid">
+                <div class="glass-card theme-card active">
+                    <div class="swatch-row">
+                        <div class="swatch-circle" style="background:#050810; border:1px solid #333;"></div>
+                        <div class="swatch-circle" style="background:#00D4FF;"></div>
+                        <div class="swatch-circle" style="background:#8B5CF6;"></div>
+                        <div class="swatch-circle" style="background:#10F59E;"></div>
+                    </div>
+                    Deep Space
+                </div>
+                <div class="glass-card theme-card">
+                    <div class="swatch-row">
+                        <div class="swatch-circle" style="background:#0D0608; border:1px solid #333;"></div>
+                        <div class="swatch-circle" style="background:#FF4D6D;"></div>
+                        <div class="swatch-circle" style="background:#FF8C00;"></div>
+                        <div class="swatch-circle" style="background:#FFD700;"></div>
+                    </div>
+                    Crimson Forge
+                </div>
+                <div class="glass-card theme-card">
+                    <div class="swatch-row">
+                        <div class="swatch-circle" style="background:#0D0221; border:1px solid #333;"></div>
+                        <div class="swatch-circle" style="background:#FF2D78;"></div>
+                        <div class="swatch-circle" style="background:#BF5AF2;"></div>
+                        <div class="swatch-circle" style="background:#00D4FF;"></div>
+                    </div>
+                    Synthwave
+                </div>
+                <div class="glass-card theme-card">
+                    <div class="swatch-row">
+                        <div class="swatch-circle" style="background:#F0F4FF; border:1px solid #333;"></div>
+                        <div class="swatch-circle" style="background:#4FC3F7;"></div>
+                        <div class="swatch-circle" style="background:#0288D1;"></div>
+                        <div class="swatch-circle" style="background:#FFFFFF;"></div>
+                    </div>
+                    Arctic
+                </div>
+                <div class="glass-card theme-card">
+                    <div class="swatch-row">
+                        <div class="swatch-circle" style="background:#050F05; border:1px solid #333;"></div>
+                        <div class="swatch-circle" style="background:#39FF14;"></div>
+                        <div class="swatch-circle" style="background:#FFFF00;"></div>
+                        <div class="swatch-circle" style="background:#00FF88;"></div>
+                    </div>
+                    Neon Jungle
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section-title">WIDGET MARKETPLACE</div>
+            <div class="widget-grid">
+                <!-- CPU -->
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" /><path d="M4 8h-2 M4 12h-2 M4 16h-2 M20 8h2 M20 12h2 M20 16h2 M8 4v-2 M12 4v-2 M16 4v-2 M8 20v2 M12 20v2 M16 20v2" /><rect x="9" y="9" width="6" height="6" rx="1" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        CPU <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn active">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn">W</div>
+                    </div>
+                </div>
+                <!-- RAM -->
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="8" width="20" height="8" rx="2" /><path d="M4 16v2 M8 16v2 M12 16v2 M16 16v2 M20 16v2" /><rect x="5" y="10" width="3" height="4" /><rect x="10" y="10" width="4" height="4" /><rect x="16" y="10" width="3" height="4" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        RAM <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn active">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn">W</div>
+                    </div>
+                </div>
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17.5 19H9a5 5 0 1 1 2.37-9.42 4.5 4.5 0 0 1 8.58 1.42A3.5 3.5 0 0 1 17.5 19z" /><path d="M3 10l-1-1 M21 10l1-1 M12 2v2 M12 20v2 M6 4l1 1 M18 4l-1 1" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        Weather <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn active">W</div>
+                    </div>
+                </div>
+                <!-- GPU -->
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" /><path d="M6 18v3 M10 18v3 M14 18v3 M18 18v3 M16 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        GPU <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn active">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn">W</div>
+                    </div>
+                </div>
+                <!-- Network -->
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0 M1.42 9a16 16 0 0 1 21.16 0 M8.53 16.11a6 6 0 0 1 6.95 0 M12 20h.01" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        Network <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn active">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn">W</div>
+                    </div>
+                </div>
+                <!-- Storage -->
+                <div class="glass-card widget-card">
+                    <div class="widget-thumb">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3" /><path d="M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6" /><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" /></svg>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px">
+                        Storage <div class="toggle on"></div>
+                    </div>
+                    <div class="widget-size">
+                        <div class="size-btn">S</div>
+                        <div class="size-btn active">M</div>
+                        <div class="size-btn">L</div>
+                        <div class="size-btn">W</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>TASK 3 &mdash; THEME SWATCHES PAGE</h2>
+    <div class="full-theme-grid">
+        <div class="glass-panel full-theme-card">
+            <h3 style="margin:0;">Deep Space</h3>
+            <div class="large-swatch" style="background:#050810; border:1px solid #333;"><span>#050810</span> <span>(Bg)</span></div>
+            <div class="large-swatch" style="background:#00D4FF; color:var(--bg)"><span>#00D4FF</span> <span>(Acct 1)</span></div>
+            <div class="large-swatch" style="background:#8B5CF6;"><span>#8B5CF6</span> <span>(Acct 2)</span></div>
+            <div class="large-swatch" style="background:#10F59E; color:var(--bg)"><span>#10F59E</span> <span>(Acct 3)</span></div>
+        </div>
+        <div class="glass-panel full-theme-card">
+            <h3 style="margin:0;">Crimson Forge</h3>
+            <div class="large-swatch" style="background:#0D0608; border:1px solid #333;"><span>#0D0608</span> <span>(Bg)</span></div>
+            <div class="large-swatch" style="background:#FF4D6D;"><span>#FF4D6D</span> <span>(Acct 1)</span></div>
+            <div class="large-swatch" style="background:#FF8C00;"><span>#FF8C00</span> <span>(Acct 2)</span></div>
+            <div class="large-swatch" style="background:#FFD700; color:var(--bg)"><span>#FFD700</span> <span>(Acct 3)</span></div>
+        </div>
+        <div class="glass-panel full-theme-card">
+            <h3 style="margin:0;">Synthwave</h3>
+            <div class="large-swatch" style="background:#0D0221; border:1px solid #333;"><span>#0D0221</span> <span>(Bg)</span></div>
+            <div class="large-swatch" style="background:#FF2D78;"><span>#FF2D78</span> <span>(Acct 1)</span></div>
+            <div class="large-swatch" style="background:#BF5AF2;"><span>#BF5AF2</span> <span>(Acct 2)</span></div>
+            <div class="large-swatch" style="background:#00D4FF; color:var(--bg)"><span>#00D4FF</span> <span>(Acct 3)</span></div>
+        </div>
+        <div class="glass-panel full-theme-card">
+            <h3 style="margin:0; color:#0288D1">Arctic</h3>
+            <div class="large-swatch" style="background:#F0F4FF; border:1px solid #CCC; color:#0288D1"><span>#F0F4FF</span> <span>(Bg)</span></div>
+            <div class="large-swatch" style="background:#4FC3F7; color:var(--bg)"><span>#4FC3F7</span> <span>(Acct 1)</span></div>
+            <div class="large-swatch" style="background:#0288D1;"><span>#0288D1</span> <span>(Acct 2)</span></div>
+            <div class="large-swatch" style="background:#FFFFFF; color:var(--bg); border:1px solid #CCC"><span>#FFFFFF</span> <span>(Acct 3)</span></div>
+        </div>
+        <div class="glass-panel full-theme-card">
+            <h3 style="margin:0;">Neon Jungle</h3>
+            <div class="large-swatch" style="background:#050F05; border:1px solid #333;"><span>#050F05</span> <span>(Bg)</span></div>
+            <div class="large-swatch" style="background:#39FF14; color:var(--bg)"><span>#39FF14</span> <span>(Acct 1)</span></div>
+            <div class="large-swatch" style="background:#FFFF00; color:var(--bg)"><span>#FFFF00</span> <span>(Acct 2)</span></div>
+            <div class="large-swatch" style="background:#00FF88; color:var(--bg)"><span>#00FF88</span> <span>(Acct 3)</span></div>
+        </div>
+    </div>
+
+</body>
+</html>

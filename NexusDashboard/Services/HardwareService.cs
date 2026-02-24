@@ -6,7 +6,7 @@ namespace NEXUS.Services;
 
 /// <summary>
 /// Monitors CPU, GPU, and RAM sensors via LibreHardwareMonitorLib.
-/// Polls every 1 second on a background thread. Requires administrator privileges.
+/// Polls every 2 seconds on a background thread. Requires administrator privileges.
 /// </summary>
 public sealed class HardwareService : IDisposable
 {
@@ -65,8 +65,8 @@ public sealed class HardwareService : IDisposable
         // Initial read
         Update();
 
-        // Poll every 1 second
-        _pollTimer = new System.Timers.Timer(1000);
+        // Poll every 2 seconds
+        _pollTimer = new System.Timers.Timer(2000);
         _pollTimer.Elapsed += OnTimerElapsed;
         _pollTimer.AutoReset = true;
         _pollTimer.Start();
