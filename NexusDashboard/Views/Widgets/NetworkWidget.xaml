@@ -1,0 +1,71 @@
+<UserControl
+    x:Class="NEXUS.Views.Widgets.NetworkWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
+            Background="{StaticResource GlassBackground}"
+            PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- CARD HEADER -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
+                <!-- Glowing cyan/green dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#10F59E" />
+                </Grid>
+                <TextBlock Text="NETWORK" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Main Content Area: Speeds Side By Side -->
+            <Grid Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- DOWNLOAD -->
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                    <TextBlock Text="DOWNLOAD" FontSize="10" Foreground="#40FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="6" HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.DownloadSpeedText, Mode=OneWay}" FontSize="32" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                                   Foreground="White" />
+                        <TextBlock Text="MB/S" FontSize="14" Foreground="#73FFFFFF" VerticalAlignment="Bottom" Margin="0,0,0,5" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 1px Divider -->
+                <Border Grid.Column="1" Background="#11FFFFFF" Margin="0,8" />
+
+                <!-- UPLOAD -->
+                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                    <TextBlock Text="UPLOAD" FontSize="10" Foreground="#40FFFFFF" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Spacing="6" HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Bind ViewModel.UploadSpeedText, Mode=OneWay}" FontSize="32" FontWeight="ExtraLight"  FontFamily="Segoe UI Variable Display"
+                                   Foreground="White" />
+                        <TextBlock Text="MB/S" FontSize="14" Foreground="#73FFFFFF" VerticalAlignment="Bottom" Margin="0,0,0,5" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Ping Row -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                <Ellipse x:Name="PingDot" Width="6" Height="6" Fill="#10F59E" VerticalAlignment="Center" />
+                <TextBlock Text="PING" FontSize="11" FontFamily="Consolas" Foreground="#40FFFFFF" VerticalAlignment="Center" />
+                <TextBlock Text="{x:Bind ViewModel.LatencyText, Mode=OneWay}" FontSize="12" FontFamily="Consolas" Foreground="#73FFFFFF" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

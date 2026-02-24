@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="NEXUS.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="NEXUS Dashboard">
+
+    <!-- Note: WinUI 3 doesn't support blur filters directly on Ellipses easily without Win2D, 
+         so we simulate it via a softer visual or just rely on opacity. 
+         TileBrush isn't fully supported to draw grid lines natively without a backing image in standard WinUI, 
+         so we use a subtle ImageBrush or skipped if unavailable. We'll use a standard layout. -->
+    <Grid Background="#050810">
+        <!-- Background Orbs Canvas (Z-Index 0) -->
+        <Canvas x:Name="BackgroundCanvas" Canvas.ZIndex="0">
+            
+            <!-- Orb 1: Violet (top-left) -->
+            <Ellipse x:Name="Orb1" Width="700" Height="700" Margin="-250,0,0,0"  Opacity="0.5">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#8B5CF6" Offset="0" />
+                        <GradientStop Color="#008B5CF6" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 2: Cyan (top-right) -->
+            <Ellipse x:Name="Orb2" Width="600" Height="600" Margin="-100,0,0,0"  Opacity="0.45">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#00D4FF" Offset="0" />
+                        <GradientStop Color="#0000D4FF" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 3: Green (bottom-left) -->
+            <Ellipse x:Name="Orb3" Width="500" Height="500" VerticalAlignment="Bottom" Margin="-150,0,0,0"  Opacity="0.30">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#10F59E" Offset="0" />
+                        <GradientStop Color="#0010F59E" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 4: Cyan (center-right) -->
+            <Ellipse x:Name="Orb4" Width="350" Height="350" Margin="300,0,0,0"  Opacity="0.28">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#00D4FF" Offset="0" />
+                        <GradientStop Color="#0000D4FF" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <!-- Orb 5: Violet (bottom-left corner) -->
+            <Ellipse x:Name="Orb5" Width="300" Height="300" VerticalAlignment="Bottom" Margin="-50,0,0,0"  Opacity="0.35">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#8B5CF6" Offset="0" />
+                        <GradientStop Color="#008B5CF6" Offset="1" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+        </Canvas>
+
+        <!-- Subtle Grid Overlay Simulation (Optional, tough in pure XAML without an image) -->
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> <!-- Header -->
+                <RowDefinition Height="*" />    <!-- Content -->
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border Grid.Row="0" BorderBrush="{StaticResource GlassBorder}" BorderThickness="0,0,0,1" Padding="32,24">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left side -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="16">
+                        <Border Width="36" Height="36" CornerRadius="10">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#00D4FF" Offset="0" />
+                                    <GradientStop Color="#8B5CF6" Offset="1" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <!-- Inner Hexagon or N -->
+                            <TextBlock Text="N" Foreground="White" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,2" />
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="NEXUS" FontSize="20" FontWeight="Bold" FontFamily="Segoe UI Variable Display" Foreground="White" CharacterSpacing="150" />
+                            <TextBlock Text="SYSTEM MONITOR" FontSize="11" Foreground="{StaticResource TextMuted}" CharacterSpacing="200" Margin="0,2,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Right side -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                            <!-- Pulsing Dot -->
+                            <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="#10F59E">
+                                <!-- Triggers in code-behind -->
+                            </Ellipse>
+                            <TextBlock Text="ALL SYSTEMS NOMINAL" FontSize="12" Foreground="#73FFFFFF" CharacterSpacing="50" Margin="0,0,16,0" />
+                        </StackPanel>
+                        <TextBlock x:Name="ClockText" Text="10:45:00" FontSize="14" FontFamily="Consolas" Foreground="#73FFFFFF" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- WIDGET GRID (4 cols: 1fr 1fr 1fr 320px) (3 rows) -->
+            <ScrollViewer Grid.Row="1" Padding="32">
+                <Grid ColumnSpacing="16" RowSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="320" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Row 1 -->
+                    <Border x:Name="CpuWidgetHost" Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" />
+                    <Border x:Name="GpuWidgetHost" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" />
+                    <Border x:Name="RamWidgetHost" Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" />
+                    
+                    <!-- Weather spans 2 rows -->
+                    <Border x:Name="WeatherWidgetHost" Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Stretch" />
+
+                    <!-- Row 2 -->
+                    <!-- RGB spans 2 cols -->
+                    <Border x:Name="RgbWidgetHost" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" VerticalAlignment="Stretch" />
+                    <Border x:Name="StorageWidgetHost" Grid.Column="2" Grid.Row="1" VerticalAlignment="Stretch" />
+
+                    <!-- Row 3 -->
+                    <!-- Bluetooth spans 2 cols -->
+                    <Border x:Name="BluetoothWidgetHost" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" VerticalAlignment="Stretch" />
+                    <Border x:Name="NetworkWidgetHost" Grid.Column="2" Grid.Row="2" VerticalAlignment="Stretch" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
+

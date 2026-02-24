@@ -1,0 +1,71 @@
+<UserControl
+    x:Class="NEXUS.Views.Widgets.WeatherWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
+            Background="{StaticResource GlassBackground}"
+            PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- CARD HEADER -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
+                <!-- Glowing orange dot -->
+                <Grid Width="6" Height="6" VerticalAlignment="Center">
+                    <Ellipse Fill="#FF6B35" />
+                </Grid>
+                <TextBlock Text="WEATHER" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                           Foreground="#40FFFFFF" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Main Content Area (Spans height) -->
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Margin="0,16,0,16">
+                <TextBlock Text="CHARTHAM, CANTERBURY" FontSize="11" Foreground="#40FFFFFF" CharacterSpacing="100" HorizontalAlignment="Center" Margin="0,0,0,4" />
+                
+                <TextBlock Text="{x:Bind ViewModel.Emoji, Mode=OneWay}" FontSize="64" HorizontalAlignment="Center" />
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{x:Bind ViewModel.Temperature, Mode=OneWay}" FontSize="72" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                               Foreground="White" LineHeight="72" CharacterSpacing="-20" Margin="0,0,0,0" />
+                    <TextBlock Text=" °C" FontSize="36" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display" Foreground="White" VerticalAlignment="Top" Margin="0,12,0,0"/>
+                </StackPanel>
+                           
+                <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" FontSize="14" Foreground="#73FFFFFF" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <!-- 2-Column Mini Stat Cards -->
+            <Grid Grid.Row="2" ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- WIND -->
+                <Border Grid.Column="0" Background="#0AFFFFFF" BorderBrush="#11FFFFFF" BorderThickness="1" CornerRadius="12" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="WIND" FontSize="9" CharacterSpacing="150" Foreground="#40FFFFFF" Margin="0,0,0,4" />
+                        <TextBlock Text="{x:Bind ViewModel.WindSpeed, Mode=OneWay}" FontSize="18" FontWeight="Light" Foreground="White" />
+                    </StackPanel>
+                </Border>
+
+                <!-- HUMIDITY -->
+                <Border Grid.Column="1" Background="#0AFFFFFF" BorderBrush="#11FFFFFF" BorderThickness="1" CornerRadius="12" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="HUMIDITY" FontSize="9" CharacterSpacing="150" Foreground="#40FFFFFF" Margin="0,0,0,4" />
+                        <TextBlock Text="{x:Bind ViewModel.Humidity, Mode=OneWay}" FontSize="18" FontWeight="Light" Foreground="White" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,75 @@
+<UserControl
+    x:Class="NEXUS.Views.Widgets.RgbWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border CornerRadius="20" Padding="22" BorderThickness="1.5" BorderBrush="{StaticResource GlassBorder}"
+            Background="{StaticResource GlassBackground}"
+            PointerEntered="Border_PointerEntered" PointerExited="Border_PointerExited"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- CARD HEADER -->
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                    <Grid Width="6" Height="6" VerticalAlignment="Center">
+                        <Ellipse Fill="#8B5CF6" />
+                    </Grid>
+                    <TextBlock Text="ILLUMINATION" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
+                               Foreground="#40FFFFFF" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Master Toggle Switch -->
+                <ToggleSwitch x:Name="MasterToggle" Grid.Column="1" HorizontalAlignment="Right" Margin="0,-6,0,0"
+                              IsOn="{x:Bind ViewModel.IsEnabled, Mode=TwoWay}"
+                              OffContent="" OnContent="" MinWidth="0" />
+            </Grid>
+
+            <!-- Main Content Area -->
+            <StackPanel Grid.Row="1" Spacing="16" VerticalAlignment="Center">
+                
+                <!-- Devices List (Row of wrap cards built in code-behind) -->
+                <!-- The prompt specifies "horizontal WrapPanel" for device zone cards -->
+                <ItemsControl x:Name="DeviceListPanel">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <StackPanel x:Name="PickerPanel" Visibility="Collapsed">
+                    <!-- Color Picker (Compact) -->
+                    <ColorPicker x:Name="RgbColorPicker" ColorSpectrumShape="Ring" IsMoreButtonVisible="False" 
+                                 IsColorSliderVisible="True" IsColorChannelTextInputVisible="False" IsHexInputVisible="False" IsAlphaEnabled="False"
+                                 HorizontalAlignment="Center" Margin="0,8,0,16" ColorChanged="RgbColorPicker_ColorChanged" />
+
+                    <!-- Full Width Gradient Apply Button -->
+                    <Button Content="APPLY CONFIGURATION" Command="{x:Bind ViewModel.ApplyColorCommand}"
+                            HorizontalAlignment="Stretch" Padding="0,12" CornerRadius="10"
+                            Foreground="White" FontSize="12" FontWeight="Bold" CharacterSpacing="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#00D4FF" Offset="0" />
+                                <GradientStop Color="#8B5CF6" Offset="1" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

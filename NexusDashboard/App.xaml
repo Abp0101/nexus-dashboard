@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="NEXUS.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:NEXUS"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Base Colors -->
+            <Color x:Key="AccentCyanColor">#00D4FF</Color>
+            <Color x:Key="AccentVioletColor">#8B5CF6</Color>
+            <Color x:Key="AccentGreenColor">#10F59E</Color>
+            <Color x:Key="AccentOrangeColor">#FF6B35</Color>
+            <Color x:Key="AccentDangerColor">#FF4D6D</Color>
+
+            <Color x:Key="GlassBorderColor">#1EFFFFFF</Color> <!-- 0.12 opacity -->
+            <Color x:Key="GlassHoverColor">#40FFFFFF</Color>  <!-- 0.25 opacity -->
+            
+            <Color x:Key="TextPrimaryColor">#EBFFFFFF</Color>
+            <Color x:Key="TextSecondaryColor">#73FFFFFF</Color>
+            <Color x:Key="TextMutedColor">#40FFFFFF</Color>
+
+            <!-- SolidColorBrushes -->
+            <SolidColorBrush x:Key="AccentCyan" Color="{StaticResource AccentCyanColor}" />
+            <SolidColorBrush x:Key="AccentViolet" Color="{StaticResource AccentVioletColor}" />
+            <SolidColorBrush x:Key="AccentGreen" Color="{StaticResource AccentGreenColor}" />
+            <SolidColorBrush x:Key="AccentOrange" Color="{StaticResource AccentOrangeColor}" />
+            <SolidColorBrush x:Key="AccentDanger" Color="{StaticResource AccentDangerColor}" />
+
+            <SolidColorBrush x:Key="TextPrimary" Color="{StaticResource TextPrimaryColor}" />
+            <SolidColorBrush x:Key="TextSecondary" Color="{StaticResource TextSecondaryColor}" />
+            <SolidColorBrush x:Key="TextMuted" Color="{StaticResource TextMutedColor}" />
+            
+            <SolidColorBrush x:Key="GlassBorder" Color="{StaticResource GlassBorderColor}" />
+            
+            <!-- True Frosted Glass AcrylicBrush -->
+            <AcrylicBrush x:Key="GlassBackground" 
+                          TintColor="#0A0F1A" 
+                          TintOpacity="0.40" 
+                           
+                          FallbackColor="#0D1525" />
+                          
+            <AcrylicBrush x:Key="GlassBackgroundHover" 
+                          TintColor="#0A0F1A" 
+                          TintOpacity="0.50" 
+                           
+                          FallbackColor="#0D1525" />
+
+            <!-- Progress bars track color -->
+            <SolidColorBrush x:Key="ProgressBarTrack" Color="#0FFFFFFF" />
+
+            <!-- Reusable Gradient Brushes -->
+            <LinearGradientBrush x:Key="CyanVioletGradient" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="{StaticResource AccentCyanColor}" Offset="0" />
+                <GradientStop Color="{StaticResource AccentVioletColor}" Offset="1" />
+            </LinearGradientBrush>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
+
