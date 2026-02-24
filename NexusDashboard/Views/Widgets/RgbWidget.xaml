@@ -51,22 +51,24 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
 
-                <!-- Color Picker (Compact) -->
-                <ColorPicker x:Name="RgbColorPicker" ColorSpectrumShape="Ring" IsMoreButtonVisible="False" 
-                             IsColorSliderVisible="True" IsColorChannelTextInputVisible="False" IsHexInputVisible="False" IsAlphaEnabled="False"
-                             HorizontalAlignment="Center" Margin="0,8,0,16" ColorChanged="RgbColorPicker_ColorChanged" />
+                <StackPanel x:Name="PickerPanel" Visibility="Collapsed">
+                    <!-- Color Picker (Compact) -->
+                    <ColorPicker x:Name="RgbColorPicker" ColorSpectrumShape="Ring" IsMoreButtonVisible="False" 
+                                 IsColorSliderVisible="True" IsColorChannelTextInputVisible="False" IsHexInputVisible="False" IsAlphaEnabled="False"
+                                 HorizontalAlignment="Center" Margin="0,8,0,16" ColorChanged="RgbColorPicker_ColorChanged" />
 
-                <!-- Full Width Gradient Apply Button -->
-                <Button Content="APPLY CONFIGURATION" Command="{x:Bind ViewModel.ApplyColorCommand}"
-                        HorizontalAlignment="Stretch" Padding="0,12" CornerRadius="10"
-                        Foreground="White" FontSize="12" FontWeight="Bold" CharacterSpacing="100">
-                    <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#00D4FF" Offset="0" />
-                            <GradientStop Color="#8B5CF6" Offset="1" />
-                        </LinearGradientBrush>
-                    </Button.Background>
-                </Button>
+                    <!-- Full Width Gradient Apply Button -->
+                    <Button Content="APPLY CONFIGURATION" Command="{x:Bind ViewModel.ApplyColorCommand}"
+                            HorizontalAlignment="Stretch" Padding="0,12" CornerRadius="10"
+                            Foreground="White" FontSize="12" FontWeight="Bold" CharacterSpacing="100">
+                        <Button.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#00D4FF" Offset="0" />
+                                <GradientStop Color="#8B5CF6" Offset="1" />
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Border>

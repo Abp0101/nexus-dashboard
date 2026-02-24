@@ -43,13 +43,13 @@
             <!-- True Frosted Glass AcrylicBrush -->
             <AcrylicBrush x:Key="GlassBackground" 
                           TintColor="#0A0F1A" 
-                          TintOpacity="0.45" 
+                          TintOpacity="0.40" 
                            
                           FallbackColor="#0D1525" />
                           
             <AcrylicBrush x:Key="GlassBackgroundHover" 
                           TintColor="#0A0F1A" 
-                          TintOpacity="0.55" 
+                          TintOpacity="0.50" 
                            
                           FallbackColor="#0D1525" />
 

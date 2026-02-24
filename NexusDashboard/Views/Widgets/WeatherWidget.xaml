@@ -32,10 +32,13 @@
             <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8" Margin="0,16,0,16">
                 <TextBlock Text="CHARTHAM, CANTERBURY" FontSize="11" Foreground="#40FFFFFF" CharacterSpacing="100" HorizontalAlignment="Center" Margin="0,0,0,4" />
                 
-                <TextBlock Text="{x:Bind ViewModel.Emoji, Mode=OneWay}" FontSize="48" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind ViewModel.Emoji, Mode=OneWay}" FontSize="64" HorizontalAlignment="Center" />
                 
-                <TextBlock Text="{x:Bind ViewModel.Temperature, Mode=OneWay}" FontSize="72" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
-                           Foreground="White" LineHeight="72" CharacterSpacing="-20" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{x:Bind ViewModel.Temperature, Mode=OneWay}" FontSize="72" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display"
+                               Foreground="White" LineHeight="72" CharacterSpacing="-20" Margin="0,0,0,0" />
+                    <TextBlock Text=" °C" FontSize="36" FontWeight="ExtraLight" FontFamily="Segoe UI Variable Display" Foreground="White" VerticalAlignment="Top" Margin="0,12,0,0"/>
+                </StackPanel>
                            
                 <TextBlock Text="{x:Bind ViewModel.Description, Mode=OneWay}" FontSize="14" Foreground="#73FFFFFF" HorizontalAlignment="Center" />
             </StackPanel>

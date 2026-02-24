@@ -59,8 +59,16 @@ public sealed partial class RgbWidget : UserControl
                     BorderThickness = new Microsoft.UI.Xaml.Thickness(1)
                 };
                 
-                tb.Checked += (s, _) => { if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = true; };
-                tb.Unchecked += (s, _) => { if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = false; };
+                tb.Checked += (s, _) => 
+                { 
+                    if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = true; 
+                    PickerPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                };
+                tb.Unchecked += (s, _) => 
+                { 
+                    if (s is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton c && c.Tag is RgbDeviceDisplay dev) dev.IsSelected = false; 
+                    UpdatePickerVisibility();
+                };
                 
                 DeviceListPanel.Items.Add(tb);
             }
@@ -96,5 +104,19 @@ public sealed partial class RgbWidget : UserControl
 
     private void Border_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
+    }
+
+    private void UpdatePickerVisibility()
+    {
+        bool anySelected = false;
+        foreach (var item in DeviceListPanel.Items)
+        {
+            if (item is Microsoft.UI.Xaml.Controls.Primitives.ToggleButton tb && tb.IsChecked == true)
+            {
+                anySelected = true;
+                break;
+            }
+        }
+        PickerPanel.Visibility = anySelected ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
     }
 }

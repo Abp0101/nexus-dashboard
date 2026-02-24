@@ -14,10 +14,10 @@
          so we use a subtle ImageBrush or skipped if unavailable. We'll use a standard layout. -->
     <Grid Background="#050810">
         <!-- Background Orbs Canvas (Z-Index 0) -->
-        <Canvas x:Name="BackgroundCanvas">
+        <Canvas x:Name="BackgroundCanvas" Canvas.ZIndex="0">
             
             <!-- Orb 1: Violet (top-left) -->
-            <Ellipse x:Name="Orb1" Width="700" Height="700" Margin="-250,0,0,0"  Opacity="0.35">
+            <Ellipse x:Name="Orb1" Width="700" Height="700" Margin="-250,0,0,0"  Opacity="0.5">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#8B5CF6" Offset="0" />
@@ -27,7 +27,7 @@
             </Ellipse>
 
             <!-- Orb 2: Cyan (top-right) -->
-            <Ellipse x:Name="Orb2" Width="600" Height="600" Margin="-100,0,0,0"  Opacity="0.28">
+            <Ellipse x:Name="Orb2" Width="600" Height="600" Margin="-100,0,0,0"  Opacity="0.45">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#00D4FF" Offset="0" />
@@ -37,7 +37,7 @@
             </Ellipse>
 
             <!-- Orb 3: Green (bottom-left) -->
-            <Ellipse x:Name="Orb3" Width="500" Height="500" VerticalAlignment="Bottom" Margin="-150,0,0,0"  Opacity="0.18">
+            <Ellipse x:Name="Orb3" Width="500" Height="500" VerticalAlignment="Bottom" Margin="-150,0,0,0"  Opacity="0.30">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#10F59E" Offset="0" />
@@ -47,7 +47,7 @@
             </Ellipse>
 
             <!-- Orb 4: Cyan (center-right) -->
-            <Ellipse x:Name="Orb4" Width="350" Height="350" Margin="300,0,0,0"  Opacity="0.15">
+            <Ellipse x:Name="Orb4" Width="350" Height="350" Margin="300,0,0,0"  Opacity="0.28">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#00D4FF" Offset="0" />
@@ -57,7 +57,7 @@
             </Ellipse>
 
             <!-- Orb 5: Violet (bottom-left corner) -->
-            <Ellipse x:Name="Orb5" Width="300" Height="300" VerticalAlignment="Bottom" Margin="-50,0,0,0"  Opacity="0.20">
+            <Ellipse x:Name="Orb5" Width="300" Height="300" VerticalAlignment="Bottom" Margin="-50,0,0,0"  Opacity="0.35">
                 <Ellipse.Fill>
                     <RadialGradientBrush>
                         <GradientStop Color="#8B5CF6" Offset="0" />
