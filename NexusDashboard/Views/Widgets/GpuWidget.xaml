@@ -17,10 +17,11 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <!-- Glowing violet dot -->
-                <Grid Width="6" Height="6" VerticalAlignment="Center">
-                    <Ellipse Fill="#8B5CF6" />
-                </Grid>
+                <Image Width="20" Height="20" VerticalAlignment="Center">
+                    <Image.Source>
+                        <SvgImageSource UriSource="ms-appx:///Assets/Icons/gpu-icon.svg" />
+                    </Image.Source>
+                </Image>
                 <TextBlock Text="GPU" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
                            Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>

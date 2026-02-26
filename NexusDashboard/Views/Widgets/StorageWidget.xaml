@@ -19,10 +19,11 @@
 
             <!-- CARD HEADER -->
             <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
-                <!-- Cyan dot header for storage -->
-                <Grid Width="6" Height="6" VerticalAlignment="Center">
-                    <Ellipse Fill="#00D4FF" />
-                </Grid>
+                <Image Width="20" Height="20" VerticalAlignment="Center">
+                    <Image.Source>
+                        <SvgImageSource UriSource="ms-appx:///Assets/Icons/storage-icon.svg" />
+                    </Image.Source>
+                </Image>
                 <TextBlock Text="STORAGE VOLUMES" FontSize="10" FontWeight="Medium" CharacterSpacing="200" 
                            Foreground="#40FFFFFF" VerticalAlignment="Center" />
             </StackPanel>
